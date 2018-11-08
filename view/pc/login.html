@@ -1,30 +1,36 @@
-<% include pc_header.html %>
-    <div>
-        <button type="button" class="am-btn am-btn-default">默认样式</button>
-        <button type="button" class="am-btn am-btn-primary">主色按钮</button>
-        <button type="button" class="am-btn am-btn-secondary">次色按钮</button>
-        <button type="button" class="am-btn am-btn-success">绿色按钮</button>
-        <button type="button" class="am-btn am-btn-warning">橙色按钮</button>
-        <button type="button" class="am-btn am-btn-danger">红色按钮</button>
-        <div class="am-g">
-            <div class="am-u-sm-4">4</div>
-            <div class="am-u-sm-8">8</div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>享甜乳业</title>
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/pc/login.css">
+    <script src="http://s.amazeui.org/assets/2.x/js/jquery.min.js"></script>
+    <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+</head>
+
+<body>
+
+    <div class="content">
+        <div>
+            <input type="text" class="am-form-field" placeholder="用户名">
         </div>
-        <div class="am-progress">
-            <div class="am-progress-bar" style="width: 40%">40%</div>
+        <div class="yb-mt-30">
+            <input type="password" class="am-form-field" placeholder="密码">
         </div>
-        <form action="" class="am-form" data-am-validator>
-            <p>
-                <input type="text" class="am-form-field" placeholder="日历组件" data-am-datepicker readonly required />
-            </p>
-            <p><button class="am-btn am-btn-primary">提交</button></p>
-        </form>
-        <select data-am-selected>
-            <option value="a">Apple</option>
-            <option value="b" selected>Banana</option>
-            <option value="o">Orange</option>
-            <option value="m">Mango</option>
-            <option value="d" disabled>禁用鸟</option>
-        </select>
+        <div class="yb-mt-30">
+            <button type="button" class="am-btn am-btn-primary yb-w-1" id="login">登录</button>
+        </div>
+        <div class="am-alert am-alert-danger yb-tips yb-m-0" data-am-alert>
+            <button type="button" class="am-close">&times;</button>
+            <p class="yb-ta-c">账号或密码不正确</p>
+        </div>
     </div>
-    <% include pc_footer.html %>
+    <script src="/static/js/pc/login.js"></script>
+</body>
+
+</html>
