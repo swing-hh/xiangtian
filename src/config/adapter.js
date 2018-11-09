@@ -37,13 +37,13 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: '',
-    prefix: 'think_',
+    database: 'yb_lift_help',
+    prefix: 'yb_xiangtian_',
     encoding: 'utf8',
-    host: '127.0.0.1',
-    port: '',
-    user: 'root',
-    password: 'root',
+    host: '123.207.67.21',
+    port: '3306',
+    user: 'yaojintao',
+    password: 'yjt19921106@',
     dateStrings: true
   }
 };
