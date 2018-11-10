@@ -1,5 +1,10 @@
 const Base = require('./base.js');
 const Common = require('./common.js');
+const nodeExcel = require('excel-export');
+const excel = require('node-excel-export');
+const xlsx = require('node-xlsx');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = class extends Base {
   //登录
@@ -30,10 +35,21 @@ module.exports = class extends Base {
   }
 
   //退出登录
-  async exitLoginAction(){
+  async exitLoginAction() {
     let self = this;
     self.cookie('id', null);
     self.cookie('name', null);
     self.body = Common.suc({});
+  }
+
+  async excelAction() {
+    let self = this;
+    const data = [[1, 2, 3], [true, false, null, 'sheetjs'], ['foo', 'bar', 111, '0.3'], ['baz', null, 'qux']];
+    var buffer = xlsx.build([{ name: "mySheetName", data: data }]);
+    //fs.writeFileSync('user.xlsx', buffer, 'binary'); 
+    self.ctx.set('Content-Type', 'text/plain');
+    self.ctx.set('Content-Type', 'application/vnd.openxmlformats');
+    self.ctx.set("Content-Disposition", "attachment; filename=" + "Report.xlsx");
+    self.ctx.res.write(buffer)
   }
 };
