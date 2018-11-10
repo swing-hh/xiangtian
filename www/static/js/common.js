@@ -6,9 +6,9 @@ var ybUtils = {
             url: url,
             dataType: "json",
             success: function (data) {
-                if(data.isOk == 1){
+                if (data.isOk == 1) {
                     fn(data);
-                }else{
+                } else {
                     alert(data.msg)
                 }
             },
@@ -25,9 +25,9 @@ var ybUtils = {
             data: parame,
             dataType: "json",
             success: function (data) {
-                if(data.isOk == 1){
+                if (data.isOk == 1) {
                     fn(data);
-                }else{
+                } else {
                     alert(data.msg)
                 }
             },
@@ -35,5 +35,14 @@ var ybUtils = {
                 alert(e)
             }
         });
+    },
+    getUrl: function (variable) {
+        var query = decodeURI(decodeURI(window.location.search)).substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) { return pair[1]; }
+        }
+        return (false);
     }
 }

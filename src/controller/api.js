@@ -1,5 +1,6 @@
 const Base = require('./base.js');
 const Common = require('./common.js');
+const Moment = require('moment');
 const nodeExcel = require('excel-export');
 const excel = require('node-excel-export');
 const xlsx = require('node-xlsx');
@@ -34,11 +35,36 @@ module.exports = class extends Base {
     }
   }
 
+  //添加用户
+  async addUserAction(){
+    let self = this;
+    let userModel = self.model('user');
+    let get = self.get();
+    let remarks = get.remarks == undefined || get.remarks == ''?"":get.remarks;
+    let everyNum = get.everyNum == undefined || get.everyNum == ""?0:get.everyNum;
+    await userModel.add({
+      isHidden: 1,
+      generateTime: Moment().unix(),
+      name: get.name,
+      telphone: get.telphone,
+      milkType: get.milkType,
+      address: get.address,
+      addressType: get.addressType,
+      reserveTime: Moment(get.reserveTime).unix(),
+      total: get.total,
+      consume: 0,
+      weekSendOut: get.weekSendOut,
+      remarks: remarks,
+      everyNum: everyNum
+    });
+    self.body = Common.suc({});
+  }
+
   //退出登录
   async exitLoginAction() {
     let self = this;
     self.cookie('id', null);
-    self.cookie('name', null);
+    self.cookie('name', null); 
     self.body = Common.suc({});
   }
 
