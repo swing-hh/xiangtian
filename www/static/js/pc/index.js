@@ -3,6 +3,7 @@
         let name = ybUtils.getUrl("name");
         let start = ybUtils.getUrl("start");
         let end = ybUtils.getUrl("end");
+        let id; //操作的id
         if (name != "") {
             console.log()
             $("#userName").val(name);
@@ -27,9 +28,9 @@
         $("#handleCard").on("click", function () {
             $("#handleCardAlert").show();
         });
-        $("#handleCardAlert .close, #handleCardClose").on("click", function () {
+        $(".close, .yb-close").on("click", function () {
             clearData();
-            $("#handleCardAlert").hide();
+            $(".yb-mask").hide();
         });
         $("#handleAdd").on("click", function () {
             let name = $("#bcName").val();
@@ -87,11 +88,26 @@
                 window.location.href = window.location.href;
             });
         });
-
+        $(".xuka").on('click', function(){
+            id = $(this).parent().attr('data-id');
+            $("#continued-card").show();
+        });
+        $(".tuiding").on('click', function(){
+            id = $(this).parent().attr('data-id');
+            $("#unsubscribe").show();
+        });
+        $(".jianai").on('click', function(){
+            id = $(this).parent().attr('data-id');
+            $("#addMilk").show();
+        })
+        $(".jiannai").on('click', function(){
+            id = $(this).parent().attr('data-id');
+            $("#reduceMilk").show();
+        })
         function clearData() {
-            $("#bcName, #bcTelphone, #bcAddress, #bcAddressType, #bcTotal, #bcEveryNum, #bcRemarks").val('');
+            $("#bcName, #bcTelphone, #bcAddress, #bcAddressType, #bcTotal, #bcEveryNum, #bcRemarks, #milkNum, #money, #payee").val('');
             $("#bcMilkType").val(1)
-            $("#bcRecerveTime").attr('value', "");
+            $("#bcRecerveTime, #receivablesTime").attr('value', "");
             $('input:checkbox[name=bcWeekSendOut]:checked').each(function () {
                 $(this).attr("checked", false);
             });
