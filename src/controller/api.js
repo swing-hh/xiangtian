@@ -23,11 +23,11 @@ module.exports = class extends Base {
     if (data.length == 1) {
       self.cookie('id', `${data[0].id}`, { // 设定 cookie 时指定额外的配置
         maxAge: 24 * 3600 * 1000,
-        path: '/xiangtian'
+        path: '/'
       });
       self.cookie('name', `${data[0].name}`, { // 设定 cookie 时指定额外的配置
         maxAge: 24 * 3600 * 1000,
-        path: '/xiangtian'
+        path: '/'
       })
       self.body = Common.suc(data[0]);
     } else {
@@ -36,12 +36,12 @@ module.exports = class extends Base {
   }
 
   //添加用户
-  async addUserAction(){
+  async addUserAction() {
     let self = this;
     let userModel = self.model('user');
     let get = self.get();
-    let remarks = get.remarks == undefined || get.remarks == ''?"":get.remarks;
-    let everyNum = get.everyNum == undefined || get.everyNum == ""?0:get.everyNum;
+    let remarks = get.remarks == undefined || get.remarks == '' ? "" : get.remarks;
+    let everyNum = get.everyNum == undefined || get.everyNum == "" ? 0 : get.everyNum;
     await userModel.add({
       isHidden: 1,
       generateTime: Moment().unix(),
@@ -60,11 +60,67 @@ module.exports = class extends Base {
     self.body = Common.suc({});
   }
 
+  //续卡
+  async continuedCardAction() {
+    let self = this;
+    let get = self.get();
+    let userModel = self.model('user');
+    let continuedCardModel = self.model('continued_card');
+    let userData = await userModel
+      .where({ id: get.userId })
+      .field('id, total')
+      .select();
+    let totalMilkNum = parseInt(userData[0].total) + parseInt(get.addMilkNum);
+    await userModel
+      .where({ id: get.userId })
+      .update({
+        total: totalMilkNum
+      });
+    await continuedCardModel.add({
+      isHidden: 1,
+      generateTime: Moment().unix(),
+      userId: get.userId,
+      payee: get.payee,
+      money: get.money,
+      receivablesTime: Moment(get.time).unix()
+    })
+    self.ctx.redirect('/xiangtian');
+  }
+
+  //退订
+  async unsubscribeAction(){
+    let self = this;
+    let get = self.get();
+    let userModel = self.model('user');
+    let unsubscribeModel = self.model('unsubscribe');
+    await userModel
+      .where({id: get.userId})
+      .update({
+        isHidden: 0
+      });
+    await unsubscribeModel
+      .add({
+        isHidden: 1,
+        generateTime: Moment().unix(),
+        userId: get.userId,
+        unsubscribeTime: Moment(get.time).unix(),
+        unsubscribeReason: get.reason
+      })
+    self.ctx.redirect('/xiangtian');
+  }
+
+  //加奶
+  async addMilkAction(){
+    let self = this;
+    let get = self.get();
+    // let 
+  }
+
   //退出登录
   async exitLoginAction() {
     let self = this;
     self.cookie('id', null);
-    self.cookie('name', null); 
+    self.cookie('name', null);
     self.body = Common.suc({});
   }
 

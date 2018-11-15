@@ -4,7 +4,7 @@ const Common = require('./common.js');
 module.exports = class extends Base {
   async indexAction() {
     if (Common.isLogin(this)) {
-      this.ctx.redirect('/xiangtian/login');
+      this.ctx.redirect('/xiangtian/index');
     }
   }
 };
