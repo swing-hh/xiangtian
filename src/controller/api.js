@@ -113,7 +113,52 @@ module.exports = class extends Base {
   async addMilkAction(){
     let self = this;
     let get = self.get();
-    // let 
+    let mathMilkModel = self.model('math_milk');
+    await mathMilkModel
+      .where({
+        addMilkTime: Moment(get.time).unix(),
+        userId: get.userId,
+        operationType: 1
+      })
+      .delete();
+    await mathMilkModel
+      .add({
+        isHidden: 1,
+        generateTime: Moment().unix(),
+        userId: get.userId,
+        operationType: 1,
+        milkType: get.milkType ,
+        milkNum: get.milkNum,
+        temporaryRemark: get.temporaryRemark,
+        addMilkTime: Moment(get.time).unix()
+      });
+    self.ctx.redirect('/xiangtian');
+  }
+
+  //减奶
+  async reduceMilkAction(){
+    let self = this;
+    let get = self.get();
+    let mathMilkModel = self.model('math_milk');
+    await mathMilkModel
+      .where({
+        addMilkTime: Moment(get.time).unix(),
+        userId: get.userId,
+        operationType: 0
+      })
+      .delete();
+    await mathMilkModel
+      .add({
+        isHidden: 1,
+        generateTime: Moment().unix(),
+        userId: get.userId,
+        operationType: 0,
+        milkType: get.milkType ,
+        milkNum: get.milkNum,
+        temporaryRemark: '',
+        addMilkTime: Moment(get.time).unix()
+      });
+    self.ctx.redirect('/xiangtian');
   }
 
   //退出登录

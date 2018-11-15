@@ -49,10 +49,21 @@ module.exports = class extends Base {
   async continuedCardAction() {
     if (Common.isLogin(this)) {
       let self = this;
-      self.assign({
-        name: self.cookie('name')
-      });
-      return this.display(think.ROOT_PATH + "/view/pc/continuedCard.html");
+      let continuedCardModel = self.model('continued_card');
+      let get = self.get();
+      let start = get.start == undefined || get.start == "" ? 0 : Moment(get.start).unix();
+      let end = get.end == undefined || get.end == "" ? 9999999999 : Moment(get.end).unix();
+      let continuedCardData = await continuedCardModel
+        .where(`yb_xiangtian_continued_card.receivablesTime >= ${start} AND yb_xiangtian_continued_card.receivablesTime <= ${end}`)
+        .join('yb_xiangtian_user ON yb_xiangtian_user.id = yb_xiangtian_continued_card.userId')
+        .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
+        .order('yb_xiangtian_continued_card.receivablesTime DESC')
+        .select();
+      self.body = continuedCardData;
+      // self.assign({
+      //   name: self.cookie('name')
+      // });
+      // return this.display(think.ROOT_PATH + "/view/pc/continuedCard.html");
     }
   }
 
