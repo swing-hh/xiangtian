@@ -108,7 +108,16 @@ module.exports = class extends Base {
   async detailsAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let userModel = self.model('user');
+      let id = self.get('id');
+      let userData = await userModel
+        .where(`yb_xiangtian_user.id = ${id}`)
+        .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
+        .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_user.address, yb_xiangtian_user.addressType, yb_xiangtian_milk_type.typeName, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '20%y-%m-%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
+        .select();
+      // self.body = userData;
       self.assign({
+        data: userData[0],
         name: self.cookie('name')
       });
       return this.display(think.ROOT_PATH + "/view/pc/details.html");

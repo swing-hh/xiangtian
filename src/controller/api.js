@@ -50,14 +50,14 @@ module.exports = class extends Base {
       milkType: get.milkType,
       address: get.address,
       addressType: get.addressType,
-      reserveTime: Moment(get.reserveTime).unix(),
+      reserveTime: Moment(get.time).unix(),
       total: get.total,
       consume: 0,
       weekSendOut: get.weekSendOut,
       remarks: remarks,
       everyNum: everyNum
     });
-    self.body = Common.suc({});
+    self.ctx.redirect('/xiangtian');
   }
 
   //续卡
@@ -80,6 +80,7 @@ module.exports = class extends Base {
       isHidden: 1,
       generateTime: Moment().unix(),
       userId: get.userId,
+      addMilkType: get.addMilkNum,
       payee: get.payee,
       money: get.money,
       receivablesTime: Moment(get.time).unix()
@@ -88,13 +89,13 @@ module.exports = class extends Base {
   }
 
   //退订
-  async unsubscribeAction(){
+  async unsubscribeAction() {
     let self = this;
     let get = self.get();
     let userModel = self.model('user');
     let unsubscribeModel = self.model('unsubscribe');
     await userModel
-      .where({id: get.userId})
+      .where({ id: get.userId })
       .update({
         isHidden: 0
       });
@@ -110,7 +111,7 @@ module.exports = class extends Base {
   }
 
   //加奶
-  async addMilkAction(){
+  async addMilkAction() {
     let self = this;
     let get = self.get();
     let mathMilkModel = self.model('math_milk');
@@ -127,16 +128,16 @@ module.exports = class extends Base {
         generateTime: Moment().unix(),
         userId: get.userId,
         operationType: 1,
-        milkType: get.milkType ,
+        milkType: get.milkType,
         milkNum: get.milkNum,
-        temporaryRemark: get.temporaryRemark,
+        temporaryRemark: get.remart,
         addMilkTime: Moment(get.time).unix()
       });
     self.ctx.redirect('/xiangtian');
   }
 
   //减奶
-  async reduceMilkAction(){
+  async reduceMilkAction() {
     let self = this;
     let get = self.get();
     let mathMilkModel = self.model('math_milk');
@@ -153,8 +154,8 @@ module.exports = class extends Base {
         generateTime: Moment().unix(),
         userId: get.userId,
         operationType: 0,
-        milkType: get.milkType ,
-        milkNum: get.milkNum,
+        milkType: 1,
+        milkNum: 1,
         temporaryRemark: '',
         addMilkTime: Moment(get.time).unix()
       });

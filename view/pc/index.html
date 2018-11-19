@@ -15,7 +15,7 @@
                             <span>*</span>
                             姓名：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="bcName" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 name" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
@@ -23,7 +23,7 @@
                             <span>*</span>
                             电话：</div>
                         <div class="mask-group-right">
-                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" id="bcTelphone" placeholder="">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10 telphone" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group ">
@@ -31,7 +31,7 @@
                             <span>*</span>
                             订奶种类：</div>
                         <div class="mask-group-right mask-group-right1">
-                            <select id="bcMilkType">
+                            <select class="milkType">
                                 <option value="1">巴氏奶（大）</option>
                                 <option value="2">巴氏奶（小）</option>
                                 <option value="3">酸奶（大）</option>
@@ -44,7 +44,7 @@
                             <span>*</span>
                             地址：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="bcAddress" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 address" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
@@ -52,7 +52,7 @@
                             <span>*</span>
                             地址数字：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="bcAddressType" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 addressType" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
@@ -60,7 +60,7 @@
                             <span>*</span>
                             订卡日期：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" placeholder="" id="bcRecerveTime" data-am-datepicker readonly
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 time" placeholder="" data-am-datepicker readonly
                                 required />
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                             <span>*</span>
                             总瓶：</div>
                         <div class="mask-group-right">
-                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" id="bcTotal" placeholder="">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10 total" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
@@ -106,17 +106,17 @@
                     <div class="mask-group">
                         <div class="mask-group-left">每天杯数：</div>
                         <div class="mask-group-right">
-                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" id="bcEveryNum" placeholder="">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10 everyNum" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
                         <div class="mask-group-left">备注：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="bcRemarks" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 remark" placeholder="">
                         </div>
                     </div>
                     <div class="yb-ta-c">
-                        <button type="button" class="am-btn am-btn-primary yb-mr-40" id="handleAdd">添加</button>
+                        <button type="button" class="am-btn am-btn-primary yb-mr-40 add">添加</button>
                         <button type="button" class="am-btn am-btn-danger yb-ml-40 yb-close">取消</button>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                             <span>*</span>
                             收款日期：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 receivablesTime" placeholder="" data-am-datepicker readonly
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 time" placeholder="" data-am-datepicker readonly
                                 required />
                         </div>
                     </div>
@@ -185,20 +185,19 @@
                             <span>*</span>
                             退订日期：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" placeholder="" id="receivablesTime" data-am-datepicker readonly
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 time" placeholder=""  data-am-datepicker readonly
                                 required />
                         </div>
                     </div>
                     <div class="mask-group">
                         <div class="mask-group-left">
-                            <span>*</span>
                             退订原因：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="payee" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 reason" placeholder="">
                         </div>
                     </div>
                     <div class="yb-ta-c">
-                        <button type="button" class="am-btn am-btn-primary yb-mr-40" id="continuedCardAdd">添加</button>
+                        <button type="button" class="am-btn am-btn-primary yb-mr-40 add">添加</button>
                         <button type="button" class="am-btn am-btn-danger yb-ml-40 yb-close">取消</button>
                     </div>
                 </div>
@@ -218,7 +217,7 @@
                             <span>*</span>
                             加奶日期：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" placeholder="" id="receivablesTime" data-am-datepicker readonly
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 time" placeholder="" data-am-datepicker readonly
                                 required />
                         </div>
                     </div>
@@ -227,19 +226,31 @@
                             <span>*</span>
                             加奶数量：</div>
                         <div class="mask-group-right">
-                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" id="payee" placeholder="">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10 milkNum" placeholder="">
+                        </div>
+                    </div>
+                    <div class="mask-group ">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            订奶种类：</div>
+                        <div class="mask-group-right mask-group-right1">
+                            <select class="milkType">
+                                <option value="1">巴氏奶（大）</option>
+                                <option value="2">巴氏奶（小）</option>
+                                <option value="3">酸奶（大）</option>
+                                <option value="4">酸奶（小）</option>
+                            </select>
                         </div>
                     </div>
                     <div class="mask-group">
                         <div class="mask-group-left">
-                            <span>*</span>
                             临时备注：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="payee" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 remart" placeholder="">
                         </div>
                     </div>
                     <div class="yb-ta-c">
-                        <button type="button" class="am-btn am-btn-primary yb-mr-40" id="continuedCardAdd">添加</button>
+                        <button type="button" class="am-btn am-btn-primary yb-mr-40 add">添加</button>
                         <button type="button" class="am-btn am-btn-danger yb-ml-40 yb-close">取消</button>
                     </div>
                 </div>
@@ -259,12 +270,12 @@
                             <span>*</span>
                             减奶日期：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" placeholder="" id="receivablesTime" data-am-datepicker readonly
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 time" placeholder="" data-am-datepicker readonly
                                 required />
                         </div>
                     </div>
                     <div class="yb-ta-c">
-                        <button type="button" class="am-btn am-btn-primary yb-mr-40" id="continuedCardAdd">添加</button>
+                        <button type="button" class="am-btn am-btn-primary yb-mr-40 add">添加</button>
                         <button type="button" class="am-btn am-btn-danger yb-ml-40 yb-close">取消</button>
                     </div>
                 </div>

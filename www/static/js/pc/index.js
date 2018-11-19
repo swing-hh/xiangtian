@@ -4,8 +4,8 @@
         let start = ybUtils.getUrl("start");
         let end = ybUtils.getUrl("end");
         let id; //操作的id
+        let check = true;
         if (name != "") {
-            console.log()
             $("#userName").val(name);
         }
         if (start != "") {
@@ -32,36 +32,37 @@
             clearData();
             $(".yb-mask").hide();
         });
-        $("#handleAdd").on("click", function () {
-            let name = $("#bcName").val();
+        //办卡
+        $("#handleCardAlert .add").on("click", function () {
+            let name = $("#handleCardAlert .name").val();
             if (name == "") {
-                alert("请填写姓名");
+                alert("请填写姓名!");
                 return false;
             }
-            let telphone = $("#bcTelphone").val();
+            let telphone = $("#handleCardAlert .telphone").val();
             if (telphone == "") {
-                alert("请填写电话");
+                alert("请填写电话!");
                 return false;
             }
-            let milkType = $("#bcMilkType").val();
-            let address = $("#bcAddress").val();
+            let milkType = $("#handleCardAlert .milkType").val();
+            let address = $("#handleCardAlert .address").val();
             if (address == "") {
-                alert("请填写地址");
+                alert("请填写地址!");
                 return false;
             }
-            let addressType = $("#bcAddressType").val();
+            let addressType = $("#handleCardAlert .addressType").val();
             if (addressType == "") {
-                alert("请填写地址数字");
+                alert("请填写地址数字!");
                 return false;
             }
-            let recerveTime = $("#bcRecerveTime").val();
-            if (recerveTime == "") {
-                alert("请填写定卡日期");
+            let time = $("#handleCardAlert .time").val();
+            if (time == "") {
+                alert("请填写办卡时间!");
                 return false;
             }
-            let total = $("#bcTotal").val();
+            let total = $(".total").val();
             if (total == "") {
-                alert("请填写总瓶数");
+                alert("请填写总瓶数!");
                 return false;
             }
             let id_list = "";
@@ -69,11 +70,11 @@
                 id_list += $(this).attr('value') + ',';
             });
             if (id_list == "") {
-                alert("请填写周几送");
+                alert("请填写周几送!");
                 return false;
             }
             if (id_list.indexOf("0") >= 0 && id_list.length > 2) {
-                alert("周几和打电话不能重复");
+                alert("周几和打电话不能重复!");
                 return false;
             }
             let weekSendOut;
@@ -82,11 +83,11 @@
             } else {
                 weekSendOut = "[" + id_list.substring(0, id_list.length - 1) + "]";
             }
-            let everyNum = $("#bcEveryNum").val();
-            let remarks = $("#bcRemarks").val();
-            ybUtils.ybGet(`/api/addUser?name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`, function () {
-                window.location.href = window.location.href;
-            });
+            let everyNum = $("#handleCardAlert .everyNum").val();
+            let remarks = $("#handleCardAlert .remark").val();
+            if(!check)return false;
+            check = false;
+            window.location.href = `/api/addUser?name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`;
         });
         $(".xuka").on('click', function () {
             id = $(this).parent().attr('data-id');
@@ -104,34 +105,81 @@
             id = $(this).parent().attr('data-id');
             $("#reduceMilk").show();
         })
-        //续卡添加
+        //续卡
         $("#continued-card .add").on('click', function () {
             let milkNum = $("#continued-card .milkNum").val();
             if (milkNum == "") {
-                alert('请填写增加瓶数');
+                alert('请填写增加瓶数!');
                 return false;
             }
             let money = $("#continued-card .money").val();
             if (money == "") {
-                alert('请填写金额');
+                alert('请填写金额!');
                 return false;
             }
             let payee = $("#continued-card .payee").val();
             if (payee == "") {
-                alert('请填写收款人');
+                alert('请填写收款人!');
                 return false;
             }
-            let receivablesTime = $("#continued-card .receivablesTime").val();
-            if (receivablesTime == "") {
-                alert('请填写收款日期');
+            let time = $("#continued-card .time").val();
+            if (time == "") {
+                alert('请填写收款时间!');
                 return false;
             }
-            window.location.href = `/api/continuedCard?userId=${id}&milkNum=${milkNum}$money=${money}&payee=${payee}&time=receivablesTime`;
+            if(!check)return false;
+            check = false;
+            window.location.href = `/api/continuedCard?userId=${id}&addMilkNum=${milkNum}&money=${money}&payee=${payee}&time=${time}`;
+        });
+        //退卡
+        $("#unsubscribe .add").on('click', function () {
+            let time = $("#unsubscribe .time").val();
+            if (time == "") {
+                alert('请填写退订时间!');
+                return false;
+            }
+            let reason = $("#unsubscribe .reason").val();
+            if(!check)return false;
+            check = false;
+            window.location.href = `/api/unsubscribe?userId=${id}&time=${time}&reason=${reason}`;
+        });
+        //加奶
+        $("#addMilk .add").on('click', function () {
+            let time = $("#addMilk .time").val();
+            if (time == "") {
+                alert('请填写加奶时间!');
+                return false;
+            }
+            let milkNum = $("#addMilk .milkNum").val();
+            if (milkNum == "") {
+                alert('请填写加奶数量!');
+                return false;
+            }
+            let milkType = $("#addMilk .milkType").val();
+            if (milkType == "") {
+                alert('请填写加奶类型!');
+                return false;
+            }
+            let remart = $("#addMilk .remart").val();
+            if(!check)return false;
+            check = false;
+            window.location.href = `/api/addMilk?userId=${id}&time=${time}&milkNum=${milkNum}&milkType=${milkType}&remart=${remart}`; 
+        });
+        //加奶
+        $("#reduceMilk .add").on('click', function(){
+            let time = $("#reduceMilk .time").val();
+            if(time == ""){
+                alert('请填写退订时间!');
+                return false;
+            }
+            if(!check)return false;
+            check = false;
+            window.location.href = `/api/reduceMilk?userId=${id}&time=${time}`;
         });
         function clearData() {
-            $("#bcName, #bcTelphone, #bcAddress, #bcAddressType, #bcTotal, #bcEveryNum, #bcRemarks, #milkNum, #money, #payee").val('');
-            $("#bcMilkType").val(1)
-            $("#bcRecerveTime, #receivablesTime").attr('value', "");
+            $(".name, .telphone, .address, .addressType, .total, .everyNum, .remark, .milkNum, .money, .payee, .reason, .remart").val('');
+            $(".milkType").val(1)
+            $(".time, .receivablesTime").attr('value', "");
             $('input:checkbox[name=bcWeekSendOut]:checked').each(function () {
                 $(this).attr("checked", false);
             });

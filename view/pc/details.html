@@ -15,7 +15,7 @@
                             <span>*</span>
                             姓名：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="bcName" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" value="<%= data.name%>" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
@@ -23,7 +23,7 @@
                             <span>*</span>
                             电话：</div>
                         <div class="mask-group-right">
-                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" id="bcTelphone" placeholder="">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" value="<%= data.telphone%>" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group ">
@@ -31,7 +31,7 @@
                             <span>*</span>
                             订奶种类：</div>
                         <div class="mask-group-right mask-group-right1">
-                            <select id="bcMilkType">
+                            <select class="milkType" value="<%= data.milkType%>">
                                 <option value="1">巴氏奶（大）</option>
                                 <option value="2">巴氏奶（小）</option>
                                 <option value="3">酸奶（大）</option>
@@ -44,7 +44,7 @@
                             <span>*</span>
                             地址：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="bcAddress" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" value="<%= data.address%>" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
@@ -52,7 +52,7 @@
                             <span>*</span>
                             地址数字：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="bcAddressType" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" value="<%= data.addressType%>" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
@@ -60,7 +60,7 @@
                             <span>*</span>
                             订卡日期：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" placeholder="" id="bcRecerveTime" data-am-datepicker readonly
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" placeholder="" value="<%= data.reserveTime%>" data-am-datepicker readonly
                                 required />
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                             <span>*</span>
                             总瓶：</div>
                         <div class="mask-group-right">
-                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" id="bcTotal" placeholder="">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" value="<%= data.total%>" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
@@ -106,13 +106,13 @@
                     <div class="mask-group">
                         <div class="mask-group-left">每天杯数：</div>
                         <div class="mask-group-right">
-                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" id="bcEveryNum" placeholder="">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10" value="<%= data.everyNum%>" placeholder="">
                         </div>
                     </div>
                     <div class="mask-group">
                         <div class="mask-group-left">备注：</div>
                         <div class="mask-group-right">
-                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" id="bcRemarks" placeholder="">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10" value="<%= data.remarks%>" placeholder="">
                         </div>
                     </div>
                     <div class="yb-ta-c">
@@ -134,6 +134,7 @@
                         <th>电话</th>
                         <th>订奶种类</th>
                         <th>地址</th>
+                        <th>地址数字</th>
                         <th>订购日期</th>
                         <th>总数（瓶）</th>
                         <th>消耗（瓶）</th>
@@ -145,18 +146,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th>1</th>
-                        <th>长民风</th>
-                        <th>18911810832</th>
-                        <th>巴氏奶（大）</th>
-                        <th>唐山市滦南县姚蒿坨65号唐山市滦南县姚蒿坨65号唐山市滦南县姚蒿坨65号唐山市滦南县姚蒿坨65号唐山市滦南县姚蒿坨65号唐山市滦南县姚蒿坨65号</th>
-                        <th>2018/11/3</th>
-                        <th>70</th>
-                        <th>10</th>
-                        <th>60</th>
-                        <th>1</th>
-                        <th>1，2，3，4，5</th>
-                        <th>箱子在楼下</th>
+                        <th><%= data.id%></th>
+                        <th><%= data.name%></th>
+                        <th><%= data.telphone%></th>
+                        <th><%= data.typeName%></th>
+                        <th><%= data.address%></th>
+                        <th><%= data.addressType%></th>
+                        <th><%= data.reserveTime%></th>
+                        <th><%= data.total%></th>
+                        <th><%= data.consume%></th>
+                        <th><%= data.total-data.consume%></th>
+                        <th><%= data.everyNum%></th>
+                        <th id="weekSendOut"><%= data.weekSendOut%></th>
+                        <th><%= data.remarks%></th>
                     </tr>
                 </tbody>
             </table>
