@@ -23,7 +23,7 @@ module.exports = class extends Base {
         .where(`yb_xiangtian_user.isHidden = 1 AND yb_xiangtian_user.name LIKE '%${name}%' AND yb_xiangtian_user.reserveTime >= ${start} AND yb_xiangtian_user.reserveTime <= ${end}`)
         .join("yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType")
         .order('yb_xiangtian_user.reserveTime DESC')
-        .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.addressType, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y年%m月%d日') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
+        .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.addressType, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
         .select();
       //self.body = userData;
       self.assign({
@@ -58,12 +58,14 @@ module.exports = class extends Base {
         .join('yb_xiangtian_user ON yb_xiangtian_user.id = yb_xiangtian_continued_card.userId')
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
         .order('yb_xiangtian_continued_card.receivablesTime DESC')
+        .field(`yb_xiangtian_continued_card.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, yb_xiangtian_continued_card.payee, yb_xiangtian_continued_card.money, FROM_UNIXTIME(yb_xiangtian_continued_card.receivablesTime, '%y/%m/%d') as receivablesTime`)
         .select();
-      self.body = continuedCardData;
-      // self.assign({
-      //   name: self.cookie('name')
-      // });
-      // return this.display(think.ROOT_PATH + "/view/pc/continuedCard.html");
+      //self.body = continuedCardData;
+      self.assign({
+        data: continuedCardData,
+        name: self.cookie('name')
+      });
+      return this.display(think.ROOT_PATH + "/view/pc/continuedCard.html");
     }
   }
 
@@ -71,7 +73,20 @@ module.exports = class extends Base {
   async unsubscribeAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let unsubscribeModel = self.model('unsubscribe');
+      let get = self.get();
+      let start = get.start == undefined || get.start == "" ? 0 : Moment(get.start).unix();
+      let end = get.end == undefined || get.end == "" ? 9999999999 : Moment(get.end).unix();
+      let unsubscribeData = await unsubscribeModel
+        .where(`yb_xiangtian_unsubscribe.unsubscribeTime >= ${start} AND yb_xiangtian_unsubscribe.unsubscribeTime <= ${end}`)
+        .join('yb_xiangtian_user ON yb_xiangtian_user.id = yb_xiangtian_unsubscribe.userId')
+        .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
+        .order('yb_xiangtian_unsubscribe.unsubscribeTime DESC')
+        .field(`yb_xiangtian_unsubscribe.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_user.milkType, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, FROM_UNIXTIME(yb_xiangtian_unsubscribe.unsubscribeTime, '%y/%m/%d') as unsubscribeTime, yb_xiangtian_unsubscribe.unsubscribeReason`)
+        .select();
+      //self.body = unsubscribeData;
       self.assign({
+        data: unsubscribeData,
         name: self.cookie('name')
       });
       return this.display(think.ROOT_PATH + "/view/pc/unsubscribe.html");

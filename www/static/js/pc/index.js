@@ -77,9 +77,9 @@
                 return false;
             }
             let weekSendOut;
-            if(id_list.length <= 2 && id_list.indexOf("0") >= 0){
+            if (id_list.length <= 2 && id_list.indexOf("0") >= 0) {
                 weekSendOut = ""
-            }else{
+            } else {
                 weekSendOut = "[" + id_list.substring(0, id_list.length - 1) + "]";
             }
             let everyNum = $("#bcEveryNum").val();
@@ -88,22 +88,46 @@
                 window.location.href = window.location.href;
             });
         });
-        $(".xuka").on('click', function(){
+        $(".xuka").on('click', function () {
             id = $(this).parent().attr('data-id');
             $("#continued-card").show();
         });
-        $(".tuiding").on('click', function(){
+        $(".tuiding").on('click', function () {
             id = $(this).parent().attr('data-id');
             $("#unsubscribe").show();
         });
-        $(".jianai").on('click', function(){
+        $(".jianai").on('click', function () {
             id = $(this).parent().attr('data-id');
             $("#addMilk").show();
         })
-        $(".jiannai").on('click', function(){
+        $(".jiannai").on('click', function () {
             id = $(this).parent().attr('data-id');
             $("#reduceMilk").show();
         })
+        //续卡添加
+        $("#continued-card .add").on('click', function () {
+            let milkNum = $("#continued-card .milkNum").val();
+            if (milkNum == "") {
+                alert('请填写增加瓶数');
+                return false;
+            }
+            let money = $("#continued-card .money").val();
+            if (money == "") {
+                alert('请填写金额');
+                return false;
+            }
+            let payee = $("#continued-card .payee").val();
+            if (payee == "") {
+                alert('请填写收款人');
+                return false;
+            }
+            let receivablesTime = $("#continued-card .receivablesTime").val();
+            if (receivablesTime == "") {
+                alert('请填写收款日期');
+                return false;
+            }
+            window.location.href = `/api/continuedCard?userId=${id}&milkNum=${milkNum}$money=${money}&payee=${payee}&time=receivablesTime`;
+        });
         function clearData() {
             $("#bcName, #bcTelphone, #bcAddress, #bcAddressType, #bcTotal, #bcEveryNum, #bcRemarks, #milkNum, #money, #payee").val('');
             $("#bcMilkType").val(1)
