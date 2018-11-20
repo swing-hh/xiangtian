@@ -97,7 +97,18 @@ module.exports = class extends Base {
   async sendOutAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let mathMilkModel = self.model('math_milk');
+      let time = self.get("time") == undefined || self.get('time') == '' ? Moment(Moment().year() + "-" + Moment().month() + "-" + Moment().date()).unix() : Moment(self.get('time')).unix();
+      //先查询一下加减奶
+      let mathMilkData = await mathMilkModel
+        .where(`yb_xiangtian_math_milk.addMilkTime = ${time}`)
+        .join('yb_xiangtian_user ON yb_xiangtian_user.id = yb_xiangtian_math_milk.userId')
+        .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_math_milk.milkType')
+        .field(`yb_xiangtian_math_milk.id, yb_xiangtian_user.name, yb_xiangtian_milk_type.typeName, yb_xiangtian_math_milk.milkNum, yb_xiangtian_user.address, yb_xiangtian_math_milk.operationType, FROM_UNIXTIME(yb_xiangtian_math_milk.addMilkTime, '20%y-%m-%d') as addMilkTime, yb_xiangtian_math_milk.temporaryRemark`)
+        .select();
+      //self.body = mathMilkData;
       self.assign({
+        mathData: mathMilkData,
         name: self.cookie('name')
       });
       return this.display(think.ROOT_PATH + "/view/pc/sendOut.html");

@@ -60,6 +60,28 @@ module.exports = class extends Base {
     self.ctx.redirect('/xiangtian');
   }
 
+  //更新用户信息
+  async updateUserAction(){
+    let self = this;
+    let userModel = self.model('user');
+    let get = self.get();
+    await userModel
+      .where({id: get.userId})
+      .update({
+        name: get.name,
+        telphone: get.telphone,
+        milkType: get.milkType,
+        address: get.address,
+        addressType: get.addressType,
+        reserveTime: Moment(get.time).unix(),
+        total: get.total,
+        everyNum: get.everyNum,
+        weekSendOut: get.weekSendOut,
+        remarks: get.remarks
+      });
+    self.body = Common.suc({});
+  }
+
   //续卡
   async continuedCardAction() {
     let self = this;
@@ -160,6 +182,17 @@ module.exports = class extends Base {
         addMilkTime: Moment(get.time).unix()
       });
     self.ctx.redirect('/xiangtian');
+  }
+
+  //删除加减奶
+  async delMathMilkAction(){
+    let self = this;
+    let mathMilkModel = self.model('math_milk');
+    let get = self.get();
+    await mathMilkModel
+      .where({id: get.id})
+      .delete();
+    self.body = Common.suc({});
   }
 
   //退出登录
