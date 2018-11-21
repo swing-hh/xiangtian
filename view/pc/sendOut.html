@@ -99,32 +99,65 @@
                         <th>每天杯数</th>
                         <th>周几送</th>
                         <th>备注</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
                     <% defaultMilkData.forEach(function(d){%>
                         <tr>
-                            <th><%= d.name%></th>
-                            <th><%= d.milkNum%></th>
-                            <th><%= d.milkType%></th>
-                            <th><%= d.temporaryRemark%></th>
-                            <th><%= d.telphone%></th>
-                            <th><%= d.typeName%></th>
-                            <th><%= d.address%></th>
-                            <th><%= d.reserveTime%></th>
-                            <th><%= d.total%></th>
-                            <th><%= d.consume%></th>
-                            <th><%= d.total-d.consume%></th>
-                            <th><%= d.everyNum%></th>
-                            <th><%= d.weekSendOut%></th>
-                            <th><%= d.remarks%></th>
+                            <th>
+                                <%= d.name%>
+                            </th>
+                            <th>
+                                <%= d.milkNum%>
+                            </th>
+                            <th>
+                                <%= d.milkType%>
+                            </th>
+                            <th>
+                                <%= d.temporaryRemark%>
+                            </th>
+                            <th>
+                                <%= d.telphone%>
+                            </th>
+                            <th>
+                                <%= d.typeName%>
+                            </th>
+                            <th>
+                                <%= d.address%>
+                            </th>
+                            <th>
+                                <%= d.reserveTime%>
+                            </th>
+                            <th>
+                                <%= d.total%>
+                            </th>
+                            <th>
+                                <%= d.consume%>
+                            </th>
+                            <th>
+                                <%= d.total-d.consume%>
+                            </th>
+                            <th>
+                                <%= d.everyNum%>
+                            </th>
+                            <th>
+                                <%= d.weekSendOut%>
+                            </th>
+                            <th>
+                                <%= d.remarks%>
+                            </th>
                         </tr>
-                    <%})%>
+                        <%})%>
                 </tbody>
             </table>
         </div>
-        <div class="yb-mt-10">汇总： 巴氏奶（大）-<%= allMilk[0]%>瓶 ， 巴氏奶（小）-<%= allMilk[1]%>瓶 ， 酸奶（大）-<%= allMilk[2]%>瓶 ， 酸奶（小）-<%= allMilk[3]%>瓶 。</div>
+        <div class="yb-mt-10">汇总： 巴氏奶（大）-
+            <%= allMilk[0]%>瓶 ， 巴氏奶（小）-
+                <%= allMilk[1]%>瓶 ， 酸奶（大）-
+                    <%= allMilk[2]%>瓶 ， 酸奶（小）-
+                        <%= allMilk[3]%>瓶 。
+        </div>
         <div class="yb-mt-20 yb-of-h">
             <button type="button" class="am-btn am-btn-primary yb-fl">生成</button>
         </div>

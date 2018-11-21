@@ -1,6 +1,10 @@
 (function () {
     $(function () {
         let id;
+        let time = ybUtils.getUrl('time');
+        if(time != ""){
+            $("#time").attr('value', time);
+        }
         $(".header ul li:eq(1)").addClass('active');
         $(".del").on('click', function () {
             id = $(this).attr('data-id');

@@ -61,12 +61,12 @@ module.exports = class extends Base {
   }
 
   //更新用户信息
-  async updateUserAction(){
+  async updateUserAction() {
     let self = this;
     let userModel = self.model('user');
     let get = self.get();
     await userModel
-      .where({id: get.userId})
+      .where({ id: get.userId })
       .update({
         name: get.name,
         telphone: get.telphone,
@@ -166,8 +166,7 @@ module.exports = class extends Base {
     await mathMilkModel
       .where({
         addMilkTime: Moment(get.time).unix(),
-        userId: get.userId,
-        operationType: 0
+        userId: get.userId
       })
       .delete();
     await mathMilkModel
@@ -185,12 +184,12 @@ module.exports = class extends Base {
   }
 
   //删除加减奶
-  async delMathMilkAction(){
+  async delMathMilkAction() {
     let self = this;
     let mathMilkModel = self.model('math_milk');
     let get = self.get();
     await mathMilkModel
-      .where({id: get.id})
+      .where({ id: get.id })
       .delete();
     self.body = Common.suc({});
   }
@@ -212,5 +211,56 @@ module.exports = class extends Base {
     self.ctx.set('Content-Type', 'application/vnd.openxmlformats');
     self.ctx.set("Content-Disposition", "attachment; filename=" + "Report.xlsx");
     self.ctx.res.write(buffer)
+  }
+
+  //生成派送
+  async generateSendOutAction() {
+    let self = this;
+    if (self.ctx.isPost) {
+      let userModel = self.model('user');
+      let productionModel = self.model('production');
+      let time = self.ctx.post('time');
+      // let postData = self.ctx.post('data');
+      let postData = [{
+        userId: 1,
+        mailkNum: 2,
+        milkType: 2,
+        sendOutTime: '2018-12-15',
+        temporaryRemark: '我家放鞭炮'
+      }, {
+        userId: 1,
+        mailkNum: 2,
+        milkType: 2,
+        sendOutTime: '2018-12-15',
+        temporaryRemark: '我家放鞭炮'
+      }, {
+        userId: 1,
+        mailkNum: 2,
+        milkType: 2,
+        sendOutTime: '2018-12-15',
+        temporaryRemark: '我家放鞭炮'
+      }];
+      for (let i = 0; i < postData.length; i++) {
+        await userModel
+          .where({ id: postData[i].userId })
+          .update({
+            consume: postData[i].mailkNum + postData[i].consume
+          });
+        await productionModel
+          .add({
+            isHidden: 1,
+            generateTime: Moment().unix(),
+            userId: postData[i].userId,
+            milkNum: postData[i].milkType,
+            milkType: postData[i].milkType,
+            sendOutTime: Moment(time).unix(),
+            temporaryRemark: postData[i].temporaryRemark
+          });
+      }
+      let excelData = [['用户id', "派送瓶数", '酸奶类型', '送餐时间', '临时备注']];
+      for (let i = 0; i < postData.length; i++) {
+        
+      }
+    }
   }
 };
