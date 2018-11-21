@@ -11,5 +11,10 @@
                 })
             }
         })
+        $("#query").on('click', function () {
+            let time = $("#time").val();
+            if (time == "") return false;
+            window.location.href = '/xiangtian/sendOut?time=' + time;
+        })
     });
 })();

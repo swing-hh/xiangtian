@@ -74,7 +74,7 @@
             });
         });
         $(".close, .yb-close").on('click', function () {
-            $("#userInfo").hide();
+            $("#handleCardAlert").hide();
         });
     });
 })();

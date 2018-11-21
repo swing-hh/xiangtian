@@ -98,16 +98,76 @@ module.exports = class extends Base {
     if (Common.isLogin(this)) {
       let self = this;
       let mathMilkModel = self.model('math_milk');
-      let time = self.get("time") == undefined || self.get('time') == '' ? Moment(Moment().year() + "-" + Moment().month() + "-" + Moment().date()).unix() : Moment(self.get('time')).unix();
-      //先查询一下加减奶
+      let userModel = self.model('user');
+      //获取当前时间时间戳
+      let time = self.get("time") == undefined || self.get('time') == '' ? Moment(Moment().year() + "-" + (Moment().month() + 1) + "-" + Moment().date()).unix() : Moment(self.get('time')).unix();
+      //获得当前是周几
+      let week = (new Date(time * 1000)).getDay() == '0' ? '7' : (new Date(time * 1000)).getDay();
+      //先查询一下当天加减奶
       let mathMilkData = await mathMilkModel
         .where(`yb_xiangtian_math_milk.addMilkTime = ${time}`)
         .join('yb_xiangtian_user ON yb_xiangtian_user.id = yb_xiangtian_math_milk.userId')
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_math_milk.milkType')
-        .field(`yb_xiangtian_math_milk.id, yb_xiangtian_user.name, yb_xiangtian_milk_type.typeName, yb_xiangtian_math_milk.milkNum, yb_xiangtian_user.address, yb_xiangtian_math_milk.operationType, FROM_UNIXTIME(yb_xiangtian_math_milk.addMilkTime, '20%y-%m-%d') as addMilkTime, yb_xiangtian_math_milk.temporaryRemark`)
+        .field(`yb_xiangtian_user.id, yb_xiangtian_math_milk.operationType, yb_xiangtian_user.name, yb_xiangtian_user.everyNum, yb_xiangtian_user.telphone, yb_xiangtian_user.milkType as typeName, yb_xiangtian_user.address, yb_xiangtian_user.addressType, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, yb_xiangtian_math_milk.milkNum, yb_xiangtian_milk_type.typeName as milkType, yb_xiangtian_math_milk.temporaryRemark`)
         .select();
-      //self.body = mathMilkData;
+      for (var i = 0; i < mathMilkData.length; i++) {
+        if (mathMilkData[i].typeName == 1) {
+          mathMilkData[i].typeName = "巴氏奶（大）";
+        } else if (mathMilkData[i].typeName == 2) {
+          mathMilkData[i].typeName = "巴氏奶（小）";
+        } else if (mathMilkData[i].typeName == 3) {
+          mathMilkData[i].typeName = "酸奶（大）";
+        } else {
+          mathMilkData[i].typeName = "酸奶（小）";
+        }
+      }
+      //查询一下当天默认送奶
+      let defaultMilkData = await userModel
+        .where(`yb_xiangtian_user.isHidden = 1 AND yb_xiangtian_user.weekSendOut LIKE '%${week}%'`)
+        .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
+        .order('yb_xiangtian_user.addressType DESC')
+        .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.everyNum, yb_xiangtian_user.telphone,yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, yb_xiangtian_user.addressType, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
+        .select();
+      for (var i = 0; i < defaultMilkData.length; i++) {
+        defaultMilkData[i].milkNum = defaultMilkData[i].everyNum;
+        defaultMilkData[i].temporaryRemark = '';
+        defaultMilkData[i].milkType = defaultMilkData[i].typeName;
+        defaultMilkData[i].operationType = 1;
+      }
+      for (var i = 0; i < defaultMilkData.length; i++) {
+        for (var j = 0; j < mathMilkData.length; j++) {
+          if (defaultMilkData[i].id == mathMilkData[j].id) {
+            if (mathMilkData[j].operationType == 0) {
+              defaultMilkData.splice(i, 1);
+            }
+          }
+        }
+      }
+      for (var i = 0; i < mathMilkData.length; i++) {
+        if (mathMilkData[i].operationType == 1) {
+          defaultMilkData.push(mathMilkData[i]);
+        }
+      }
+      defaultMilkData.sort(function (a, b) {
+        return a.addressType - b.addressType;
+      })
+      //整合一下所有得酸奶数量
+      let allMilk = [0, 0, 0, 0];
+      for (var i = 0; i < defaultMilkData.length; i++) {
+        if (defaultMilkData[i].milkType == "巴氏奶（大）") {
+          allMilk[0] = allMilk[0] + defaultMilkData[i].milkNum;
+        } else if (defaultMilkData[i].milkType == "巴氏奶（小）") {
+          allMilk[1] = allMilk[1] + defaultMilkData[i].milkNum;
+        } else if (defaultMilkData[i].milkType == "酸奶（大）") {
+          allMilk[2] = allMilk[2] + defaultMilkData[i].milkNum;
+        } else {
+          allMilk[3] = allMilk[3] + defaultMilkData[i].milkNum;
+        }
+      }
+      //self.body = allMilk;
       self.assign({
+        allMilk: allMilk,
+        defaultMilkData: defaultMilkData,
         mathData: mathMilkData,
         name: self.cookie('name')
       });
