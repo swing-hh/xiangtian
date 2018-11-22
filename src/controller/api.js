@@ -220,26 +220,8 @@ module.exports = class extends Base {
       let userModel = self.model('user');
       let productionModel = self.model('production');
       let time = self.ctx.post('time');
-      // let postData = self.ctx.post('data');
-      let postData = [{
-        userId: 1,
-        mailkNum: 2,
-        milkType: 2,
-        sendOutTime: '2018-12-15',
-        temporaryRemark: '我家放鞭炮'
-      }, {
-        userId: 1,
-        mailkNum: 2,
-        milkType: 2,
-        sendOutTime: '2018-12-15',
-        temporaryRemark: '我家放鞭炮'
-      }, {
-        userId: 1,
-        mailkNum: 2,
-        milkType: 2,
-        sendOutTime: '2018-12-15',
-        temporaryRemark: '我家放鞭炮'
-      }];
+      let postData = JSON.parse(self.ctx.post('data'));
+      self.body = Common.suc(postData);
       for (let i = 0; i < postData.length; i++) {
         await userModel
           .where({ id: postData[i].userId })
@@ -257,10 +239,7 @@ module.exports = class extends Base {
             temporaryRemark: postData[i].temporaryRemark
           });
       }
-      let excelData = [['用户id', "派送瓶数", '酸奶类型', '送餐时间', '临时备注']];
-      for (let i = 0; i < postData.length; i++) {
-        
-      }
+      self.body = Common.suc({});
     }
   }
 };

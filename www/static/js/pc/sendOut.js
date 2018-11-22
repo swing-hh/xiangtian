@@ -2,7 +2,7 @@
     $(function () {
         let id;
         let time = ybUtils.getUrl('time');
-        if(time != ""){
+        if (time != "") {
             $("#time").attr('value', time);
         }
         $(".header ul li:eq(1)").addClass('active');
@@ -20,5 +20,11 @@
             if (time == "") return false;
             window.location.href = '/xiangtian/sendOut?time=' + time;
         })
+        $("#generateExcel").on("click", function () {
+            ybUtils.ybPost('/api/generateSendOut', {time: '2018-11-22', data: $("#ybData").val()},function(data){
+                console.log(data)
+                // window.location.href = data;
+            }); 
+        });
     });
 })();
