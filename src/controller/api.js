@@ -187,10 +187,52 @@ module.exports = class extends Base {
   async delMathMilkAction() {
     let self = this;
     let mathMilkModel = self.model('math_milk');
+    let productionModel = self.model('production');
+    let userModel = self.model('user');
     let get = self.get();
-    await mathMilkModel
+    let time = self.get('time') == '' || self.get('time') == undefined ? Moment().year() + "-" + (Moment().month() + 1) + "-" + Moment().date() : self.get('time');
+    let productionNum = await productionModel
+      .where({ userId: get.id, sendOutTime: Moment(time).unix() })
+      .field('milkNum')
+      .select();
+    let userData = await userModel
       .where({ id: get.id })
+      .select();
+    //已经生成过数据了 大于0条
+    if (productionNum.length) {
+      //加奶
+      if (get.type == 1) {
+        await userModel
+          .where({ id: get.id })
+          .update({
+            consume: userData[0].consume - productionNum[0].milkNum
+          });
+        await productionModel
+          .where({ userId: get.id, sendOutTime: Moment(time).unix() })
+          .delete();
+        //减奶
+      } else {
+        await userModel
+          .where({ id: get.id })
+          .update({
+            consume: userData[0].consume + userData[0].everyNum
+          });
+        await productionModel
+          .add({
+            isHidden: 1,
+            generateTime: Moment().unix(),
+            userId: get.id,
+            milkNum: userData[0].everyNum,
+            temporaryRemarks: '',
+            milkType: userData[0].milkType,
+            sendOutTime: Moment(time).unix()
+          });
+      }
+    }
+    await mathMilkModel
+      .where({ userId: get.id, addMilkTime: Moment(time).unix() })
       .delete();
+    self.body = productionNum;
     self.body = Common.suc({});
   }
 
@@ -219,25 +261,39 @@ module.exports = class extends Base {
     if (self.ctx.isPost) {
       let userModel = self.model('user');
       let productionModel = self.model('production');
-      let time = self.ctx.post('time');
+      let time = self.ctx.post('time') == '' || self.ctx.post('time') == undefined ? Moment().year() + "-" + (Moment().month() + 1) + "-" + Moment().date() : self.ctx.post('time');
       let postData = JSON.parse(self.ctx.post('data'));
-      self.body = Common.suc(postData);
-      for (let i = 0; i < postData.length; i++) {
-        await userModel
-          .where({ id: postData[i].userId })
-          .update({
-            consume: postData[i].mailkNum + postData[i].consume
-          });
-        await productionModel
-          .add({
-            isHidden: 1,
-            generateTime: Moment().unix(),
-            userId: postData[i].userId,
-            milkNum: postData[i].milkType,
-            milkType: postData[i].milkType,
-            sendOutTime: Moment(time).unix(),
-            temporaryRemark: postData[i].temporaryRemark
-          });
+      let timeData = await productionModel
+        .where({ sendOutTime: Moment(time).unix() })
+        .select();
+      if (!timeData.length) {
+        for (let i = 0; i < postData.length; i++) {
+          await userModel
+            .where({ id: postData[i].id })
+            .update({
+              consume: postData[i].milkNum + postData[i].consume
+            })
+          let milkType;
+          if (postData[i].milkType == "巴氏奶（大）") {
+            milkType = 1;
+          } else if (postData[i].milkType == "巴氏奶（小）") {
+            milkType = 2;
+          } else if (postData[i].milkType == "酸奶（大）") {
+            milkType = 3;
+          } else {
+            milkType = 4;
+          }
+          await productionModel
+            .add({
+              isHidden: 1,
+              generateTime: Moment().unix(),
+              userId: postData[i].id,
+              milkNum: postData[i].milkNum,
+              milkType: milkType,
+              sendOutTime: Moment(time).unix(),
+              temporaryRemarks: postData[i].temporaryRemark
+            });
+        }
       }
       self.body = Common.suc({});
     }

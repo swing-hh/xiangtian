@@ -145,8 +145,8 @@
         });
         //加奶
         $("#addMilk .add").on('click', function () {
-            let time = $("#addMilk .time").val();
-            if (time == "") {
+            let time1 = $("#addMilk .time").val();
+            if (time1 == "") {
                 alert('请填写加奶时间!');
                 return false;
             }
@@ -163,7 +163,7 @@
             let remart = $("#addMilk .remart").val();
             if(!check)return false;
             check = false;
-            window.location.href = `/api/addMilk?userId=${id}&time=${time}&milkNum=${milkNum}&milkType=${milkType}&remart=${remart}`; 
+            window.location.href = `/api/addMilk?userId=${id}&time=${time1}&milkNum=${milkNum}&milkType=${milkType}&remart=${remart}`; 
         });
         //加奶
         $("#reduceMilk .add").on('click', function(){

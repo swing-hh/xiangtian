@@ -134,12 +134,20 @@ module.exports = class extends Base {
         defaultMilkData[i].milkType = defaultMilkData[i].typeName;
         defaultMilkData[i].operationType = 1;
       }
+      let delId = [];
       for (var i = 0; i < defaultMilkData.length; i++) {
         for (var j = 0; j < mathMilkData.length; j++) {
           if (defaultMilkData[i].id == mathMilkData[j].id) {
             if (mathMilkData[j].operationType == 0) {
-              defaultMilkData.splice(i, 1);
+              delId.push(defaultMilkData[i].id);
             }
+          }
+        }
+      }
+      for (var i = 0; i < defaultMilkData.length; i++) {
+        for (var j = 0; j < delId.length; j++) {
+          if (defaultMilkData[i].id == delId[j]) {
+            defaultMilkData.splice(i, 1);
           }
         }
       }
@@ -164,7 +172,7 @@ module.exports = class extends Base {
           allMilk[3] = allMilk[3] + defaultMilkData[i].milkNum;
         }
       }
-      //self.body = allMilk;
+      // self.body = mathMilkData; 
       self.assign({
         allMilk: allMilk,
         defaultMilkData: defaultMilkData,
