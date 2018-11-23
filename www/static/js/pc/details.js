@@ -1,7 +1,7 @@
+let check = true;
 (function () {
     $(function () {
         let userId = ybUtils.getUrl('id');
-        let check = true;
         $("#update").on("click", function () {
             let weekSendOut = $("#weekSendOut").text();
             let week = weekSendOut == "" ? '' : JSON.parse(weekSendOut);

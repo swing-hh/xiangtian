@@ -108,7 +108,7 @@ module.exports = class extends Base {
         .where(`yb_xiangtian_math_milk.addMilkTime = ${time}`)
         .join('yb_xiangtian_user ON yb_xiangtian_user.id = yb_xiangtian_math_milk.userId')
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_math_milk.milkType')
-        .field(`yb_xiangtian_user.id, yb_xiangtian_math_milk.operationType, yb_xiangtian_user.name, yb_xiangtian_user.everyNum, yb_xiangtian_user.telphone, yb_xiangtian_user.milkType as typeName, yb_xiangtian_user.address, yb_xiangtian_user.addressType, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, yb_xiangtian_math_milk.milkNum, yb_xiangtian_milk_type.typeName as milkType, yb_xiangtian_math_milk.temporaryRemark`)
+        .field(`yb_xiangtian_user.id, yb_xiangtian_math_milk.operationType, yb_xiangtian_user.name, yb_xiangtian_user.everyNum, yb_xiangtian_user.telphone, yb_xiangtian_user.milkType as typeName, yb_xiangtian_user.address, yb_xiangtian_user.addressType, FROM_UNIXTIME(yb_xiangtian_math_milk.addMilkTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, yb_xiangtian_math_milk.milkNum, yb_xiangtian_milk_type.typeName as milkType, yb_xiangtian_math_milk.temporaryRemark`)
         .select();
       for (var i = 0; i < mathMilkData.length; i++) {
         if (mathMilkData[i].typeName == 1) {
@@ -172,7 +172,7 @@ module.exports = class extends Base {
           allMilk[3] = allMilk[3] + defaultMilkData[i].milkNum;
         }
       }
-      // self.body = mathMilkData; 
+      //self.body = mathMilkData; 
       self.assign({
         allMilk: allMilk,
         defaultMilkData: defaultMilkData,
@@ -200,6 +200,17 @@ module.exports = class extends Base {
         name: self.cookie('name')
       });
       return this.display(think.ROOT_PATH + "/view/pc/details.html");
+    }
+  }
+
+  //地址数字
+  async addressNumberAction() {
+    if (Common.isLogin(this)) {
+      let self = this; 
+      self.assign({ 
+        name: self.cookie('name')
+      });
+      return this.display(think.ROOT_PATH + "/view/pc/addressNumber.html");
     }
   }
 };

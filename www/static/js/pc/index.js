@@ -1,10 +1,10 @@
+let check = true;
 (function () {
     $(function () {
         let name = ybUtils.getUrl("name");
         let start = ybUtils.getUrl("start");
         let end = ybUtils.getUrl("end");
         let id; //操作的id
-        let check = true;
         if (name != "") {
             $("#userName").val(name);
         }
@@ -85,7 +85,7 @@
             }
             let everyNum = $("#handleCardAlert .everyNum").val();
             let remarks = $("#handleCardAlert .remark").val();
-            if(!check)return false;
+            if (!check) return false;
             check = false;
             window.location.href = `/api/addUser?name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`;
         });
@@ -127,7 +127,7 @@
                 alert('请填写收款时间!');
                 return false;
             }
-            if(!check)return false;
+            if (!check) return false;
             check = false;
             window.location.href = `/api/continuedCard?userId=${id}&addMilkNum=${milkNum}&money=${money}&payee=${payee}&time=${time}`;
         });
@@ -139,7 +139,7 @@
                 return false;
             }
             let reason = $("#unsubscribe .reason").val();
-            if(!check)return false;
+            if (!check) return false;
             check = false;
             window.location.href = `/api/unsubscribe?userId=${id}&time=${time}&reason=${reason}`;
         });
@@ -161,20 +161,24 @@
                 return false;
             }
             let remart = $("#addMilk .remart").val();
-            if(!check)return false;
+            if (!check) return false;
             check = false;
-            window.location.href = `/api/addMilk?userId=${id}&time=${time1}&milkNum=${milkNum}&milkType=${milkType}&remart=${remart}`; 
+            ybUtils.ybGet(`/api/addMilk?userId=${id}&time=${time1}&milkNum=${milkNum}&milkType=${milkType}&remart=${remart}`, function () {
+                window.location.href = window.location.href;
+            })
         });
-        //加奶
-        $("#reduceMilk .add").on('click', function(){
+        //减奶
+        $("#reduceMilk .add").on('click', function () {
             let time = $("#reduceMilk .time").val();
-            if(time == ""){
+            if (time == "") {
                 alert('请填写退订时间!');
                 return false;
             }
-            if(!check)return false;
+            if (!check) return false;
             check = false;
-            window.location.href = `/api/reduceMilk?userId=${id}&time=${time}`;
+            ybUtils.ybGet(`/api/reduceMilk?userId=${id}&time=${time}`, function () {
+                window.location.href = window.location.href;
+            });
         });
         function clearData() {
             $(".name, .telphone, .address, .addressType, .total, .everyNum, .remark, .milkNum, .money, .payee, .reason, .remart").val('');

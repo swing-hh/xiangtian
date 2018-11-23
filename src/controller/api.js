@@ -137,6 +137,74 @@ module.exports = class extends Base {
     let self = this;
     let get = self.get();
     let mathMilkModel = self.model('math_milk');
+    let productionModel = self.model('production');
+    let userModel = self.model('user');
+    //获取当前时间时间戳
+    let time = self.get("time");
+    //获得当前是周几
+    let week = (new Date(Moment(get.time).unix() * 1000)).getDay() == '0' ? '7' : (new Date(Moment(get.time).unix() * 1000)).getDay();
+    let productionData = await productionModel
+      .where({ sendOutTime: Moment(get.time).unix() })
+      .select();
+    let mathMilkData = await mathMilkModel
+      .where({ userId: get.userId, addMilkTime: Moment(get.time).unix(), operationType: 1 })
+      .select();
+    let userData = await userModel
+      .where({ id: get.userId })
+      .select();
+    let defauleData = await userModel
+      .where(`yb_xiangtian_user.id = ${get.userId} AND yb_xiangtian_user.weekSendOut LIKE '%${week}%'`)
+      .select();
+
+    //今天是派送时间
+    if (defauleData.length) {
+      let mathMilkData1 = await mathMilkModel
+        .where({ userId: get.userId, addMilkTime: Moment(get.time).unix(), operationType: 0 })
+        .select();
+      if (mathMilkData1.length == 0) {
+        self.body = Common.err('默认派送用户需要先减奶然后在进行加奶操作！');
+        return false;
+      }
+    }
+    if (mathMilkData.length != 0) {
+      self.body = Common.err('今天此用户已经添加了加奶了，先去派单页删除在添加把！')
+      return false;
+    }
+    //已经生成过数据
+    if (productionData.length) {
+      //生成得时候生成了这条了
+      if (mathMilkData.length) {
+        let productionData1 = await productionModel
+          .where({ userId: get.userId, sendOutTime: Moment(get.time).unix() })
+          .select();
+        //更新user得消耗数
+        await userModel
+          .where({ id: get.userId })
+          .update({
+            consume: parseInt(userData[0].consume) - parseInt(productionData1[0].milkNum) + parseInt(get.milkNum)
+          })
+        await productionModel
+          .where({ userId: get.userId, sendOutTime: Moment(get.time).unix() })
+          .delete();
+        //生成得时候没有这条 要添加一条新的
+      } else {
+        await userModel
+          .where({ id: get.userId })
+          .update({
+            consume: parseInt(userData[0].consume) + parseInt(get.milkNum)
+          });
+      }
+      await productionModel
+        .add({
+          isHidden: 1,
+          generateTime: Moment().unix(),
+          userId: get.userId,
+          milkNum: get.milkNum,
+          temporaryRemarks: get.remart,
+          milkType: get.milkType,
+          sendOutTime: Moment(get.time).unix()
+        })
+    }
     await mathMilkModel
       .where({
         addMilkTime: Moment(get.time).unix(),
@@ -155,7 +223,7 @@ module.exports = class extends Base {
         temporaryRemark: get.remart,
         addMilkTime: Moment(get.time).unix()
       });
-    self.ctx.redirect('/xiangtian');
+    self.body = Common.suc({});
   }
 
   //减奶
@@ -163,24 +231,72 @@ module.exports = class extends Base {
     let self = this;
     let get = self.get();
     let mathMilkModel = self.model('math_milk');
-    await mathMilkModel
-      .where({
-        addMilkTime: Moment(get.time).unix(),
-        userId: get.userId
-      })
-      .delete();
-    await mathMilkModel
-      .add({
-        isHidden: 1,
-        generateTime: Moment().unix(),
-        userId: get.userId,
-        operationType: 0,
-        milkType: 1,
-        milkNum: 1,
-        temporaryRemark: '',
-        addMilkTime: Moment(get.time).unix()
-      });
-    self.ctx.redirect('/xiangtian');
+    let productionModel = self.model('production');
+    let userModel = self.model('user');
+    let week = (new Date(Moment(get.time).unix() * 1000)).getDay() == '0' ? '7' : (new Date(Moment(get.time).unix() * 1000)).getDay();
+    let userData = await userModel
+      .where({ id: get.userId })
+      .select();
+    if (userData[0].weekSendOut == '' || userData[0].weekSendOut.indexOf(week) < 0) {
+      self.body = Common.err('今天没有默认配送，不需要减奶，直接加就行了！')
+      return false;
+    }
+    let mathMilkData = await mathMilkModel
+      .where({ userId: get.userId, addMilkTime: Moment(get.time).unix(), operationType: 0 })
+      .select();
+    if (mathMilkData.length) {
+      self.body = Common.err('今天已经存在减奶了，去派单页删除了当天得在添加新的吧！')
+      return false;
+    }
+    let productionData = await productionModel
+      .where({ sendOutTime: Moment(get.time).unix() })
+      .select();
+    //有数据 说明已经生成过了
+    if (productionData.length) {
+      let productionData1 = await productionModel
+        .where({ userId: get.userId, sendOutTime: Moment(get.time).unix() })
+        .select();
+      await userModel
+        .where({ id: get.userId })
+        .update({
+          consume: parseInt(userData[0].consume) - parseInt(productionData1[0].milkNum)
+        });
+      await productionModel
+        .where({ userId: get.userId, sendOutTime: Moment(get.time).unix() })
+        .delete();
+      await mathMilkModel
+        .add({
+          isHidden: 1,
+          generateTime: Moment().unix(),
+          userId: get.userId,
+          operationType: 0,
+          milkType: 1,
+          milkNum: 1,
+          temporaryRemark: '',
+          addMilkTime: Moment(get.time).unix()
+        });
+      self.body = Common.suc({});
+      //没有数据 没有生成过
+    } else {
+      await mathMilkModel
+        .where({
+          addMilkTime: Moment(get.time).unix(),
+          userId: get.userId
+        })
+        .delete();
+      await mathMilkModel
+        .add({
+          isHidden: 1,
+          generateTime: Moment().unix(),
+          userId: get.userId,
+          operationType: 0,
+          milkType: 1,
+          milkNum: 1,
+          temporaryRemark: '',
+          addMilkTime: Moment(get.time).unix()
+        });
+      self.body = Common.suc({});
+    }
   }
 
   //删除加减奶
@@ -329,5 +445,27 @@ module.exports = class extends Base {
       }
       self.body = Common.suc({});
     }
+  }
+
+  //添加数字地址
+  async numberAddressAction() {
+    let self = this;
+    let addressNumberModel = self.model('address_number');
+    let get = self.get();
+    let addressNumberData = await addressNumberModel
+      .where({number: get.number})
+      .select();
+    if(addressNumberData.length){
+      self.body = Common.err('该数字被使用了，换一个吧！');
+      return false;
+    }
+    await addressNumberModel
+      .add({
+        isHidden: 1,
+        generateTime: Moment().unix(),
+        number: get.number,
+        address: get.address
+      });
+    self.body = Common.suc({});
   }
 };

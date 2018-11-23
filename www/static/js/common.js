@@ -9,10 +9,14 @@ var ybUtils = {
                 if (data.isOk == 1) {
                     fn(data);
                 } else {
+                    check = true;
+                    console.log(check)
                     alert(data.msg)
                 }
+                
             },
             error: function (e) {
+                check = true;
                 alert(e)
             }
         });
@@ -28,10 +32,12 @@ var ybUtils = {
                 if (data.isOk == 1) {
                     fn(data);
                 } else {
+                    check = true;
                     alert(data.msg)
                 }
             },
             error: function (e) {
+                check = true;
                 alert(e)
             }
         });
