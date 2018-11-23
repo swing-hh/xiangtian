@@ -192,11 +192,17 @@ module.exports = class extends Base {
     let get = self.get();
     let time = self.get('time') == '' || self.get('time') == undefined ? Moment().year() + "-" + (Moment().month() + 1) + "-" + Moment().date() : self.get('time');
     let productionNum = await productionModel
-      .where({ userId: get.id, sendOutTime: Moment(time).unix() })
+      .where({ sendOutTime: Moment(time).unix() })
       .field('milkNum')
       .select();
     let userData = await userModel
       .where({ id: get.id })
+      .select();
+    let addMathMilkData = await mathMilkModel
+      .where({ userId: get.id, addMilkTime: Moment(time).unix(), operationType: 1 })
+      .select();
+    let delMathMilkData = await mathMilkModel
+      .where({ userId: get.id, addMilkTime: Moment(time).unix(), operationType: 0 })
       .select();
     //已经生成过数据了 大于0条
     if (productionNum.length) {
@@ -205,34 +211,60 @@ module.exports = class extends Base {
         await userModel
           .where({ id: get.id })
           .update({
-            consume: userData[0].consume - productionNum[0].milkNum
+            consume: userData[0].consume - addMathMilkData[0].milkNum
           });
         await productionModel
           .where({ userId: get.id, sendOutTime: Moment(time).unix() })
           .delete();
         //减奶
       } else {
-        await userModel
-          .where({ id: get.id })
-          .update({
-            consume: userData[0].consume + userData[0].everyNum
-          });
-        await productionModel
-          .add({
-            isHidden: 1,
-            generateTime: Moment().unix(),
-            userId: get.id,
-            milkNum: userData[0].everyNum,
-            temporaryRemarks: '',
-            milkType: userData[0].milkType,
-            sendOutTime: Moment(time).unix()
-          });
+        //只有删除 没有增加
+        if (addMathMilkData.length == 0) {
+          await userModel
+            .where({ id: get.id })
+            .update({
+              consume: userData[0].consume + userData[0].everyNum
+            });
+          await productionModel
+            .add({
+              isHidden: 1,
+              generateTime: Moment().unix(),
+              userId: get.id,
+              milkNum: userData[0].everyNum,
+              temporaryRemarks: '',
+              milkType: userData[0].milkType,
+              sendOutTime: Moment(time).unix()
+            });
+          //既有删除又有增加
+        } else {
+          await userModel
+            .where({ id: get.id })
+            .update({
+              consume: userData[0].consume + delMathMilkData[0].milkNum - addMathMilkData[0].milkNum
+            });
+          await productionModel
+            .where({ userId: get.id, sendOutTime: Moment(time).unix() })
+            .delete();
+          await productionModel
+            .add({
+              isHidden: 1,
+              generateTime: Moment().unix(),
+              userId: get.id,
+              milkNum: userData[0].everyNum,
+              temporaryRemarks: '',
+              milkType: userData[0].milkType,
+              sendOutTime: Moment(time).unix()
+            });
+          await mathMilkModel
+            .where({ userId: get.id, addMilkTime: Moment(time).unix(), operationType: 1 })
+            .delete();
+        }
       }
     }
     await mathMilkModel
-      .where({ userId: get.id, addMilkTime: Moment(time).unix() })
+      .where({ userId: get.id, addMilkTime: Moment(time).unix(), operationType: get.type })
       .delete();
-    self.body = productionNum;
+    //self.body = productionNum;
     self.body = Common.suc({});
   }
 

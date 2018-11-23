@@ -12,7 +12,7 @@
             let c = confirm('是否确认删除？');
             if (c) {
                 ybUtils.ybGet('/api/delMathMilk?id=' + id + '&time=' + time + '&type=' + type, function () {
-                    // window.location.href = window.location.href;
+                    //window.location.href = window.location.href;
                 })
             }
         })
