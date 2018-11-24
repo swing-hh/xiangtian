@@ -29,7 +29,14 @@ module.exports = {
             return true;
         }
     },
-    getDay: function(){
-        
+    getDay: function () {
+
+    },
+    fmtDate: function (num) {
+        var date = new Date(num);
+        var y = (1900 + date.getYear()).toString();
+        var m = "0" + (date.getMonth() + 1);
+        var d = "0" + date.getDate();
+        return y.substring(2,4) + "/" + m.substring(m.length - 2, m.length) + "/" + d.substring(d.length - 2, d.length);
     }
 }

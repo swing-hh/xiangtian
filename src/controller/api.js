@@ -468,4 +468,14 @@ module.exports = class extends Base {
       });
     self.body = Common.suc({});
   }
+
+  //删除添加数字
+  async delNumberAddressAction(){
+    let self = this;
+    let numberAddressModel = self.model('address_number');
+    await numberAddressModel
+      .where({id: self.get('id')})
+      .delete();
+    self.body = Common.suc({});
+  }
 };

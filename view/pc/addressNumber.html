@@ -46,20 +46,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th>1</th>
-                        <th>河北省</th>
-                        <th>
-                            <button type="button" class="am-btn am-btn-danger tuiding">删除</button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>1</th>
-                        <th>河北省</th>
-                        <th>
-                            <button type="button" class="am-btn am-btn-danger tuiding">删除</button>
-                        </th>
-                    </tr>
+                    <% data.forEach(function(d){%>
+                        <tr>
+                            <th><%= d.number%></th>
+                            <th><%= d.address%></th>
+                            <th>
+                                <button type="button" class="am-btn am-btn-danger del" data-id="<%= d.id%>">删除</button>
+                            </th>
+                        </tr>
+                        <%})%>
                 </tbody>
             </table>
         </div>

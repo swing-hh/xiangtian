@@ -38,10 +38,70 @@ module.exports = class extends Base {
   async summaryAction() {
     if (Common.isLogin(this)) {
       let self = this;
-      self.assign({
-        name: self.cookie('name')
-      });
-      return this.display(think.ROOT_PATH + "/view/pc/summary.html");
+      let userModel = self.model('user');
+      let productionModel = self.model('production');
+      let userData = await userModel
+        .where('yb_xiangtian_user.isHidden = 1')
+        .select();
+      let startTime = await productionModel
+        .order('yb_xiangtian_production.sendOutTime ASC')
+        .find();
+      let endTime = await productionModel
+        .order('yb_xiangtian_production.sendOutTime DESC')
+        .find();
+      let productionData = await productionModel
+        .order('yb_xiangtian_production.sendOutTime ASC')
+        .field(`yb_xiangtian_production.userId, yb_xiangtian_production.milkNum, FROM_UNIXTIME(yb_xiangtian_production.sendOutTime, '%y/%m/%d') as sendOutTime, yb_xiangtian_production.sendOutTime as unixTime`)
+        .select();
+      //生成所有的时间段
+      let timeSlot = [];  //["18/11/22","18/11/23","18/11/24"]
+      let a = (endTime.sendOutTime - startTime.sendOutTime) / 60 / 60 / 24;
+      for (let i = 0; i <= a; i++) {
+        timeSlot.push(Common.fmtDate((startTime.sendOutTime + 60 * 60 * 24 * i) * 1000))
+      }
+      let productionArr = [];
+      //先把有数据得用户生成了
+      for (var j = 0; j < productionData.length; j++) {
+        let isCunZai = false;
+        for (var i = 0; i < productionArr.length; i++) {
+          //代表已经添加过
+          if (productionData[j].userId == productionArr[i].userId) {
+            isCunZai = true;
+            break;
+          }
+        }
+        if (!isCunZai) {
+          productionArr.push({
+            userId: productionData[j].userId,
+            timeData: new Array(timeSlot.length)
+          });
+        }
+      }
+      console.log(Moment().unix())
+      //填一下这些用户对应得时间
+      // for (var i = 0; i < productionArr.length; i++) {
+      //   for (var j = 0; j < productionData.length; j++) {
+      //     if (productionArr[i].userId == productionData[j].userId) {
+      //       productionArr[i].timeData[(productionData[j].unixTime - startTime.sendOutTime) / 60 / 60 / 24] = productionData[j].sendOutTime;
+      //     }
+      //   }
+      // 
+      let b = 0;
+      for (var i = 1; 1 < 10; i++) {
+        for (var j = 0; j < 20; j++) {
+
+        }
+      }
+      console.log(Moment().unix())
+
+
+
+
+      self.body = productionArr;
+      // self.assign({
+      //   name: self.cookie('name')
+      // });
+      // return this.display(think.ROOT_PATH + "/view/pc/summary.html");
     }
   }
 
@@ -206,8 +266,14 @@ module.exports = class extends Base {
   //地址数字
   async addressNumberAction() {
     if (Common.isLogin(this)) {
-      let self = this; 
-      self.assign({ 
+      let self = this;
+      let addressNumberModel = self.model('address_number');
+      let addressNumberData = await addressNumberModel
+        .order('yb_xiangtian_address_number.number DESC')
+        .field('yb_xiangtian_address_number.id, yb_xiangtian_address_number.number, yb_xiangtian_address_number.address')
+        .select();
+      self.assign({
+        data: addressNumberData,
         name: self.cookie('name')
       });
       return this.display(think.ROOT_PATH + "/view/pc/addressNumber.html");
