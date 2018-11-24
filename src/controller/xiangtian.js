@@ -42,9 +42,11 @@ module.exports = class extends Base {
       let productionModel = self.model('production');
       let userData = await userModel
         .where('yb_xiangtian_user.isHidden = 1')
+        .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
+        .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
         .select();
       let startTime = await productionModel
-        .order('yb_xiangtian_production.sendOutTime ASC')
+        .order('yb_xiangtian_production.sendOutTime ASC') 
         .find();
       let endTime = await productionModel
         .order('yb_xiangtian_production.sendOutTime DESC')
@@ -61,9 +63,9 @@ module.exports = class extends Base {
       }
       let productionArr = [];
       //先把有数据得用户生成了
-      for (var j = 0; j < productionData.length; j++) {
+      for (let j = 0; j < productionData.length; j++) {
         let isCunZai = false;
-        for (var i = 0; i < productionArr.length; i++) {
+        for (let i = 0; i < productionArr.length; i++) {
           //代表已经添加过
           if (productionData[j].userId == productionArr[i].userId) {
             isCunZai = true;
@@ -77,31 +79,43 @@ module.exports = class extends Base {
           });
         }
       }
-      console.log(Moment().unix())
       //填一下这些用户对应得时间
-      // for (var i = 0; i < productionArr.length; i++) {
-      //   for (var j = 0; j < productionData.length; j++) {
-      //     if (productionArr[i].userId == productionData[j].userId) {
-      //       productionArr[i].timeData[(productionData[j].unixTime - startTime.sendOutTime) / 60 / 60 / 24] = productionData[j].sendOutTime;
-      //     }
-      //   }
-      // 
-      let b = 0;
-      for (var i = 1; 1 < 10; i++) {
-        for (var j = 0; j < 20; j++) {
-
+      for (let i = 0; i < productionArr.length; i++) {
+        for (let j = 0; j < productionData.length; j++) {
+          if (productionArr[i].userId == productionData[j].userId) {
+            productionArr[i].timeData[(productionData[j].unixTime - startTime.sendOutTime) / 60 / 60 / 24] = productionData[j].milkNum;
+          }
         }
       }
-      console.log(Moment().unix())
-
-
-
-
-      self.body = productionArr;
-      // self.assign({
-      //   name: self.cookie('name')
-      // });
-      // return this.display(think.ROOT_PATH + "/view/pc/summary.html");
+      //将这些数据继承到userData上
+      for (let i = 0; i < userData.length; i++) {
+        for (let j = 0; j < productionArr.length; j++) {
+          if (userData[i].id == productionArr[j].userId) {
+            userData[i].timeData = productionArr[j].timeData;
+          }
+        }
+      }
+      //生成所有空
+      for (let i = 0; i < userData.length; i++) {
+        if (userData[i].timeData == undefined) {
+          userData[i].timeData = new Array(timeSlot.length);
+        }
+      }
+      //把null设置成0
+      for (let i = 0; i < userData.length; i++) {
+        for (let j = 0; j < userData[i].timeData.length; j++) {
+          if (userData[i].timeData[j] == null) {
+            userData[i].timeData[j] = 0;
+          }
+        }
+      }
+      //self.body = userData;
+      self.assign({
+        timeSlot: timeSlot,
+        userData: userData,
+        name: self.cookie('name')
+      });
+      return this.display(think.ROOT_PATH + "/view/pc/summary.html");
     }
   }
 
