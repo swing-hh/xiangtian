@@ -40,6 +40,7 @@ module.exports = class extends Base {
       let self = this;
       let userModel = self.model('user');
       let productionModel = self.model('production');
+      let get = self.get();
       let userData = await userModel
         .where('yb_xiangtian_user.isHidden = 1')
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
@@ -51,15 +52,19 @@ module.exports = class extends Base {
       let endTime = await productionModel
         .order('yb_xiangtian_production.sendOutTime DESC')
         .find();
+      let start = get.start == '' || get.start == undefined?startTime.sendOutTime: Moment(get.start).unix();
+      let end = get.end == '' || get.end == undefined?endTime.sendOutTime: Moment(get.end).unix();
       let productionData = await productionModel
+        .where(`yb_xiangtian_production.sendOutTime >= ${start} AND yb_xiangtian_production.sendOutTime <= ${end}`)
         .order('yb_xiangtian_production.sendOutTime ASC')
         .field(`yb_xiangtian_production.userId, yb_xiangtian_production.milkNum, FROM_UNIXTIME(yb_xiangtian_production.sendOutTime, '%y/%m/%d') as sendOutTime, yb_xiangtian_production.sendOutTime as unixTime`)
         .select();
+      
       //生成所有的时间段
       let timeSlot = [];  //["18/11/22","18/11/23","18/11/24"]
-      let a = (endTime.sendOutTime - startTime.sendOutTime) / 60 / 60 / 24;
+      let a = (end - start) / 60 / 60 / 24;
       for (let i = 0; i <= a; i++) {
-        timeSlot.push(Common.fmtDate((startTime.sendOutTime + 60 * 60 * 24 * i) * 1000))
+        timeSlot.push(Common.fmtDate((start + 60 * 60 * 24 * i) * 1000))
       }
       let productionArr = [];
       //先把有数据得用户生成了
@@ -83,7 +88,7 @@ module.exports = class extends Base {
       for (let i = 0; i < productionArr.length; i++) {
         for (let j = 0; j < productionData.length; j++) {
           if (productionArr[i].userId == productionData[j].userId) {
-            productionArr[i].timeData[(productionData[j].unixTime - startTime.sendOutTime) / 60 / 60 / 24] = productionData[j].milkNum;
+            productionArr[i].timeData[(productionData[j].unixTime - start) / 60 / 60 / 24] = productionData[j].milkNum;
           }
         }
       }
@@ -262,14 +267,48 @@ module.exports = class extends Base {
     if (Common.isLogin(this)) {
       let self = this;
       let userModel = self.model('user');
+      let productionModel = self.model('production');
       let id = self.get('id');
       let userData = await userModel
         .where(`yb_xiangtian_user.id = ${id}`)
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
         .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_user.address, yb_xiangtian_user.addressType, yb_xiangtian_milk_type.typeName, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '20%y-%m-%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
         .select();
-      // self.body = userData;
+      //所有的开始时间
+      let startTime = await productionModel
+        .order('yb_xiangtian_production.sendOutTime ASC') 
+        .find();
+      //所有的结束时间
+      let endTime = await productionModel
+        .order('yb_xiangtian_production.sendOutTime DESC')
+        .find();
+      let productionData = await productionModel
+        .where({userId: id})
+        .field(`yb_xiangtian_production.milkNum, FROM_UNIXTIME(yb_xiangtian_production.sendOutTime, '%y/%m/%d') as sendOutTime`)
+        .select();
+      //生成所有的时间段
+      let timeSlot = [];  //["18/11/22","18/11/23","18/11/24"]
+      let a = (endTime.sendOutTime - startTime.sendOutTime) / 60 / 60 / 24;
+      for (let i = 0; i <= a; i++) {
+        timeSlot.push(Common.fmtDate((startTime.sendOutTime + 60 * 60 * 24 * i) * 1000))
+      }
+      let timeSlot1 = new Array(timeSlot.length);
+      for(var i=0;i<timeSlot.length;i++){
+        for(var j=0;j<productionData.length;j++){
+          if(timeSlot[i] == productionData[j].sendOutTime){
+            timeSlot1[i] = productionData[j].milkNum;
+          }
+        }
+      }
+      for(var i = 0;i<timeSlot1.length;i++){
+        if(timeSlot1[i] == null){
+          timeSlot1[i] = 0;
+        }
+      }
+      // self.body = timeSlot1;
       self.assign({
+        timeSlot: timeSlot,
+        timeSlot1: timeSlot1,
         data: userData[0],
         name: self.cookie('name')
       });

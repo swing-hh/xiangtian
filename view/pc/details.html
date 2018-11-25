@@ -164,71 +164,20 @@
             </table>
         </div>
         <div class="yb-mt-20 table-all">
-            <div>12月</div>
+            <div>所有派单</div>
             <table class="am-table">
                 <thead>
                     <tr>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
+                        <% timeSlot.forEach(function(t){%>
+                            <th><%= t%></th>
+                        <%})%>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="yb-mt-20 table-all">
-            <div>11月</div>
-            <table class="am-table">
-                <thead>
-                    <tr>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                        <th>12/1</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
-                        <th>1</th>
+                        <% timeSlot1.forEach(function(t){%>
+                            <th><%= t%></th>
+                        <%})%>
                     </tr>
                 </tbody>
             </table>
