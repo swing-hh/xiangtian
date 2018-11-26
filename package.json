@@ -12,14 +12,14 @@
   },
   "dependencies": {
     "think-cache": "^1.0.0",
-    "think-session": "^1.0.0",
     "think-cache-file": "^1.0.8",
+    "think-logger3": "^1.0.0",
     "think-model": "^1.0.0",
+    "think-model-mysql": "^1.0.0",
+    "think-session": "^1.0.0",
     "think-session-file": "^1.0.5",
     "think-view": "^1.0.0",
     "think-view-nunjucks": "^1.0.1",
-    "think-model-mysql": "^1.0.0",
-    "think-logger3": "^1.0.0",
     "thinkjs": "^3.0.0"
   },
   "devDependencies": {
@@ -28,7 +28,10 @@
     "babel-preset-think-node": "^1.0.0",
     "eslint": "^4.2.0",
     "eslint-config-think": "^1.0.0",
+    "excel-export": "^0.5.1",
+    "node-excel-export": "^1.4.4",
     "node-notifier": "^5.0.2",
+    "node-xlsx": "^0.12.1",
     "nyc": "^7.0.0",
     "think-babel": "^1.0.3",
     "think-inspect": "0.0.2",

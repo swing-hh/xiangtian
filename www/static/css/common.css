@@ -1,0 +1,445 @@
+p{
+    margin: 0;
+    padding: 0;
+}
+.yb-ws-n{
+    white-space: nowrap;
+}
+.yb-mt-0{
+    margin-top: 0px;
+}
+.yb-mt-5{
+    margin-top: 5px;
+}
+.yb-mt-10{
+    margin-top: 10px;
+}
+.yb-mt-15{
+    margin-top: 15px;
+}
+.yb-mt-20{
+    margin-top: 20px;
+}
+.yb-mt-25{
+    margin-top: 25px;
+}
+.yb-mt-30{
+    margin-top: 30px;
+}
+.yb-mt-35{
+    margin-top: 35px;
+}
+.yb-mt-40{
+    margin-top: 40px;
+}
+.yb-mr-0{
+    margin-right: 0px;
+}
+.yb-mr-5{
+    margin-right: 5px;
+}
+.yb-mr-10{
+    margin-right: 10px;
+}
+.yb-mr-15{
+    margin-right: 15px;
+}
+.yb-mr-20{
+    margin-right: 20px;
+}
+.yb-mr-25{
+    margin-right: 25px;
+}
+.yb-mr-30{
+    margin-right: 30px;
+}
+.yb-mr-35{
+    margin-right: 35px;
+}
+.yb-mr-40{
+    margin-right: 40px;
+}
+.yb-mb-0{
+    margin-bottom: 0px;
+}
+.yb-mb-5{
+    margin-bottom: 5px;
+}
+.yb-mb-10{
+    margin-bottom: 10px;
+}
+.yb-mb-15{
+    margin-bottom: 15px;
+}
+.yb-mb-20{
+    margin-bottom: 20px;
+}
+.yb-mb-25{
+    margin-bottom: 25px;
+}
+.yb-mb-30{
+    margin-bottom: 30px;
+}
+.yb-mb-35{
+    margin-bottom: 35px;
+}
+.yb-mb-40{
+    margin-bottom: 40px;
+}
+.yb-ml-0{
+    margin-left: 0px;
+}
+.yb-ml-5{
+    margin-left: 5px;
+}
+.yb-ml-10{
+    margin-left: 10px;
+}
+.yb-ml-15{
+    margin-left: 15px;
+}
+.yb-ml-20{
+    margin-left: 20px;
+}
+.yb-ml-25{
+    margin-left: 25px;
+}
+.yb-ml-30{
+    margin-left: 30px;
+}
+.yb-ml-35{
+    margin-left: 35px;
+}
+.yb-ml-40{
+    margin-left: 40px;
+}
+.yb-m-0{
+    margin: 0px;
+}
+.yb-m-5{
+    margin: 5px;
+}
+.yb-m-10{
+    margin: 10px;
+}
+.yb-m-15{
+    margin: 15px;
+}
+.yb-m-20{
+    margin: 20px;
+}
+.yb-m-25{
+    margin: 25px;
+}
+.yb-m-30{
+    margin: 30px;
+}
+.yb-m-35{
+    margin: 35px;
+}
+.yb-m-40{
+    margin: 40px;
+}
+.yb-pt-0{
+    padding-top: 0px;
+}
+.yb-pt-5{
+    padding-top: 5px;
+}
+.yb-pt-10{
+    padding-top: 10px;
+}
+.yb-pt-15{
+    padding-top: 15px;
+}
+.yb-pt-20{
+    padding-top: 20px;
+}
+.yb-pt-25{
+    padding-top: 25px;
+}
+.yb-pt-30{
+    padding-top: 30px;
+}
+.yb-pt-35{
+    padding-top: 35px;
+}
+.yb-pt-40{
+    padding-top: 40px;
+}
+.yb-pr-0{
+    padding-right: 0px;
+}
+.yb-pr-5{
+    padding-right: 5px;
+}
+.yb-pr-10{
+    padding-right: 10px;
+}
+.yb-pr-15{
+    padding-right: 15px;
+}
+.yb-pr-20{
+    padding-right: 20px;
+}
+.yb-pr-25{
+    padding-right: 25px;
+}
+.yb-pr-30{
+    padding-right: 30px;
+}
+.yb-pr-35{
+    padding-right: 35px;
+}
+.yb-pr-40{
+    padding-right: 40px;
+}
+.yb-pb-0{
+    padding-bottom: 0px;
+}
+.yb-pb-5{
+    padding-bottom: 5px;
+}
+.yb-pb-10{
+    padding-bottom: 10px;
+}
+.yb-pb-15{
+    padding-bottom: 15px;
+}
+.yb-pb-20{
+    padding-bottom: 20px;
+}
+.yb-pb-25{
+    padding-bottom: 25px;
+}
+.yb-pb-30{
+    padding-bottom: 30px;
+}
+.yb-pb-35{
+    padding-bottom: 35px;
+}
+.yb-pb-40{
+    padding-bottom: 40px;
+}
+.yb-pl-0{
+    padding-left: 0px;
+}
+.yb-pl-5{
+    padding-left: 5px;
+}
+.yb-pl-10{
+    padding-left: 10px;
+}
+.yb-pl-15{
+    padding-left: 15px;
+}
+.yb-pl-20{
+    padding-left: 20px;
+}
+.yb-pl-25{
+    padding-left: 25px;
+}
+.yb-pl-30{
+    padding-left: 30px;
+}
+.yb-pl-35{
+    padding-left: 35px;
+}
+.yb-pl-40{
+    padding-left: 40px;
+}
+.yb-p-0{
+    padding: 0px;
+}
+.yb-p-5{
+    padding: 5px;
+}
+.yb-p-10{
+    padding: 10px;
+}
+.yb-p-15{
+    padding: 15px;
+}
+.yb-p-20{
+    padding: 20px;
+}
+.yb-p-25{
+    padding: 25px;
+}
+.yb-p-30{
+    padding: 30px;
+}
+.yb-p-35{
+    padding: 35px;
+}
+.yb-p-40{
+    padding: 40px;
+}
+.yb-w-1{
+    width: 100%;
+}
+.yb-h-1{
+    height: 100%;
+}
+.yb-ta-c{
+    text-align: center;
+}
+.yb-fl{
+    float: left;
+}
+.yb-fr{
+    float: right;
+}
+.yb-of-h{
+    overflow: hidden;
+}
+.yb-w-50{
+    width: 50px;
+}
+.yb-w-100{
+    width: 100px;
+}
+.yb-w-200{
+    width: 200px;
+}
+.yb-w-300{
+    width: 300px;
+}
+.yb-w-400{
+    width: 400px;
+}
+.yb-w-500{
+    width: 500px;
+}
+.yb-d-n{
+    display: none;
+}
+
+.content{
+    margin-top: 60px;
+}
+li{
+    list-style: none;
+}
+.header{
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    line-height: 60px;
+}
+.header ul{
+    overflow: hidden;
+}
+
+.header ul li{
+    width: 90px;
+    margin-right: 30px;
+    float: left;
+    line-height: 30px;
+    margin-top: 30px;
+    font-weight: 600;
+    font-size: 20px;
+    cursor: pointer;
+}
+.header .active{
+    color: #0e90d2;
+}
+.header button{
+    margin: 11px 20px 11px 10px
+}
+.header span{
+    font-size: 20px;
+    font-weight: 600;
+}
+table tbody th{
+    font-weight: 500;
+}
+table th{
+    white-space:nowrap;
+}
+.table-all{
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.yb-mask{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+    left: 0;
+    top: 0; 
+    display: none;
+}
+.yb-mask .mask-div{
+    width: 700px;
+    margin: 100px auto;
+    background: #fff;
+    position: relative;
+} 
+.yb-mask .mask-div .mask-title{
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 50px;
+    position: fixed;
+    left: 0;
+    top: 100px;
+    width: 100%;
+}
+.yb-mask .mask-div .mask-title div{
+    width: 700px;
+    margin: 0 auto;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+.yb-mask .mask-div .mask-title div .close{
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+}
+.yb-mask .mask-div .mask-title div .close:hover{
+    color: red;
+}
+.mask-content{
+    padding: 15px;
+    padding-top: 65px;
+    max-height: 550px;
+    overflow-y: auto;
+}
+.mask-content .mask-group{
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.mask-content .mask-group .mask-group-left{
+    width: 100px;
+    float: left;
+    line-height: 37px;
+    text-align: right;
+}
+.mask-content .mask-group .mask-group-left span{
+    color: red;
+}
+.mask-content .mask-group .mask-group-right{
+    margin-left: 115px;
+    height: 37px;
+}
+.mask-group-right1{
+    margin-left: 105px !important; 
+    padding-right: 10px;
+}
+.mask-group-right1 select{
+    height: 35px; 
+}
+.mask-group-right input, .mask-group-right select{
+    width: 100%;
+}

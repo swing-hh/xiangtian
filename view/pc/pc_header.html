@@ -6,7 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>享甜乳业</title>
     <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
+    <link rel="stylesheet" href="/static/css/common.css">
     <script src="http://s.amazeui.org/assets/2.x/js/jquery.min.js"></script>
     <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+    <script src="/static/js/common.js"></script>
 </head>
 <body>
+    <div class="header">
+        <ul class="yb-fl">
+            <li data-url="/xiangtian">主页</li>
+            <li data-url="/xiangtian/sendOut">派单</li>
+            <li data-url="/xiangtian/continuedCard">续卡</li>
+            <li data-url="/xiangtian/unsubscribe">退订</li>
+            <li data-url="/xiangtian/addressNumber">地址数字</li>
+        </ul>
+        <button type="button" class="am-btn am-btn-danger yb-fr">退出</button>
+        <input type="hidden" value="<%= cookie%>" id="cookie">
+        <span class="yb-fr"><%= name%></span>
+    </div>
+    <script>
+        $(".header ul li").on('click', function(){
+            window.location.href = $(this).attr('data-url');
+        });
+        $(".header button").on('click', function(){
+            ybUtils.ybLog(cId, 21); 
+            setTimeout(function(){
+                ybUtils.ybGet('/api/exitLogin', function(){
+                    window.location.href = '/xiangtian/login';
+                });
+            }, 100)
+        });
+        var cId = $("#cookie").val();
+    </script>

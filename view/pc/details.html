@@ -1,0 +1,187 @@
+<% include pc_header.html %>
+    <link rel="stylesheet" href="/static/css/pc/details.css">
+    <div class="content yb-p-20">
+        <!--办卡-->
+        <div class="yb-mask" id="handleCardAlert">
+            <div class="mask-div">
+                <div class="mask-title">
+                    <div class="yb-ta-c">编辑用户信息
+                        <span class="close">X</span>
+                    </div>
+                </div>
+                <div class="mask-content">
+                    <div class="mask-group">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            姓名：</div>
+                        <div class="mask-group-right">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 name" value="<%= data.name%>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="mask-group">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            电话：</div>
+                        <div class="mask-group-right">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10 telphone" value="<%= data.telphone%>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="mask-group ">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            订奶种类：</div>
+                        <div class="mask-group-right mask-group-right1">
+                            <select class="milkType" value="<%= data.milkType%>">
+                                <option value="1">巴氏奶（大）</option>
+                                <option value="2">巴氏奶（小）</option>
+                                <option value="3">酸奶（大）</option>
+                                <option value="4">酸奶（小）</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mask-group">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            地址：</div>
+                        <div class="mask-group-right">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 address" value="<%= data.address%>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="mask-group">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            地址数字：</div>
+                        <div class="mask-group-right">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 addressType" value="<%= data.addressType%>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="mask-group">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            订卡日期：</div>
+                        <div class="mask-group-right">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 time" placeholder="" value="<%= data.reserveTime%>" data-am-datepicker readonly
+                                required />
+                        </div>
+                    </div>
+                    <div class="mask-group">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            总瓶：</div>
+                        <div class="mask-group-right">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10 total" value="<%= data.total%>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="mask-group">
+                        <div class="mask-group-left">
+                            <span>*</span>
+                            周几送：</div>
+                        <div class="am-form-group mask-group-right" style="line-height: 37px;">
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="bcWeekSendOut" value="1"> 一
+                            </label>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="bcWeekSendOut" value="2"> 二
+                            </label>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="bcWeekSendOut" value="3"> 三
+                            </label>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="bcWeekSendOut" value="4"> 四
+                            </label>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="bcWeekSendOut" value="5"> 五
+                            </label>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="bcWeekSendOut" value="6"> 六
+                            </label>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="bcWeekSendOut" value="7"> 日
+                            </label>
+                            <label class="am-checkbox-inline yb-ws-n">
+                                <input type="checkbox" name="bcWeekSendOut" value="0"> 打电话
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mask-group">
+                        <div class="mask-group-left">每天杯数：</div>
+                        <div class="mask-group-right">
+                            <input type="number" class="am-form-field yb-fr input1 yb-mr-10 everyNum" value="<%= data.everyNum%>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="mask-group">
+                        <div class="mask-group-left">备注：</div>
+                        <div class="mask-group-right">
+                            <input type="text" class="am-form-field yb-fr input1 yb-mr-10 remark" value="<%= data.remarks%>" placeholder="">
+                        </div>
+                    </div>
+                    <div class="yb-ta-c">
+                        <button type="button" class="am-btn am-btn-primary yb-mr-40 add">添加</button>
+                        <button type="button" class="am-btn am-btn-danger yb-ml-40 yb-close">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yb-of-h">
+            <button type="button" class="am-btn am-btn-primary yb-fr" id="update">编辑</button>
+        </div>
+        <div class="yb-mt-20 table-all">
+            <table class="am-table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>姓名</th>
+                        <th>电话</th>
+                        <th>订奶种类</th>
+                        <th>地址</th>
+                        <th>地址数字</th>
+                        <th>订购日期</th>
+                        <th>总数（瓶）</th>
+                        <th>消耗（瓶）</th>
+                        <th>剩余（瓶）</th>
+                        <th>每天杯数</th>
+                        <th>周几送</th>
+                        <th>备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><%= data.id%></th>
+                        <th><%= data.name%></th>
+                        <th><%= data.telphone%></th>
+                        <th><%= data.typeName%></th>
+                        <th><%= data.address%></th>
+                        <th><%= data.addressType%></th>
+                        <th><%= data.reserveTime%></th>
+                        <th><%= data.total%></th>
+                        <th><%= data.consume%></th>
+                        <th><%= data.total-data.consume%></th>
+                        <th><%= data.everyNum%></th>
+                        <th id="weekSendOut"><%= data.weekSendOut%></th>
+                        <th><%= data.remarks%></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="yb-mt-20 table-all">
+            <div>所有派单</div>
+            <table class="am-table">
+                <thead>
+                    <tr>
+                        <% timeSlot.forEach(function(t){%>
+                            <th><%= t%></th>
+                        <%})%>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <% timeSlot1.forEach(function(t){%>
+                            <th><%= t%></th>
+                        <%})%>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/static/js/pc/details.js"></script>
+    <% include pc_footer.html %>
