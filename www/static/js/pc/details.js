@@ -13,6 +13,7 @@ let check = true;
                     $('input:checkbox[name=bcWeekSendOut]:eq(' + (week[i] - 1) + ')').attr('checked', true);
                 }
             }
+            ybUtils.ybLog(cId, 19); 
             $("#handleCardAlert").show();
         });
         //办卡
@@ -76,7 +77,7 @@ let check = true;
             });
         });
         $(".close, .yb-close").on('click', function () {
-            ybUtils.ybLog(cId, 19); 
+            ybUtils.ybLog(cId, 6); 
             $("#handleCardAlert").hide();
         });
     });

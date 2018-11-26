@@ -35,7 +35,7 @@
                 }
                 jsono.push(obj);
             }
-            ybUtils.ybLog(cId, 22); 
+            ybUtils.ybLog(cId, 23); 
             downloadExl(jsono);
         })
         var tmpDown; //导出的二进制对象

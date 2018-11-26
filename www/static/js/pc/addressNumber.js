@@ -3,6 +3,7 @@
         ybUtils.ybLog(cId, 35); 
         $(".header ul li:eq(4)").addClass('active');
         $(".close, .yb-close").on("click", function () {
+            ybUtils.ybLog(cId, 6); 
             clearData();
             $(".yb-mask").hide();
         });

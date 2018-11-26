@@ -178,7 +178,7 @@ let check = true;
             let remart = $("#addMilk .remart").val();
             if (!check) return false;
             check = false;
-            ybUtils.ybLog(cId, 12); 
+            ybUtils.ybLog(cId, 13); 
             ybUtils.ybGet(`/api/addMilk?userId=${id}&time=${time1}&milkNum=${milkNum}&milkType=${milkType}&remart=${remart}`, function () {
                 window.location.href = window.location.href;
             })
