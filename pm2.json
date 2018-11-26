@@ -2,7 +2,7 @@
   "apps": [{
     "name": "xiangtian1",
     "script": "production.js",
-    "cwd": "E:\yaobai\node\xiangtian1",
+    "cwd": "/root/yaobai/node/xiangtian",
     "exec_mode": "fork",
     "max_memory_restart": "1G",
     "autorestart": true,
