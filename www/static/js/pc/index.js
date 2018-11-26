@@ -92,8 +92,11 @@ let check = true;
             let remarks = $("#handleCardAlert .remark").val();
             if (!check) return false;
             check = false;
-            ybUtils.ybLog(cId, 5); 
-            window.location.href = `/api/addUser?name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`;
+            ybUtils.ybGet(`/api/addUser?name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`, function(){
+                ybUtils.ybLog(cId, 5); 
+                window.location.href = window.location.href;
+            })
+
         });
         $(".xuka").on('click', function () {
             id = $(this).parent().attr('data-id');

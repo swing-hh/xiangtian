@@ -72,7 +72,7 @@ module.exports = class extends Base {
       remarks: remarks,
       everyNum: everyNum
     });
-    self.ctx.redirect('/xiangtian');
+    self.body = Common.suc({});
   }
 
   //更新用户信息
