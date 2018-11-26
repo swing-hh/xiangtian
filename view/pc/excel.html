@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <script src="http://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script>
+    <script src="/static/js/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -15,15 +15,15 @@
     <a href="" download="这里是下载的文件名.xlsx" id="hf"></a>
     <script>
         var jsono = [{ //测试数据
-            name: "adventLifecycle",
-            title: "title",
-            tips: "defaultPrice",
-            height: "height"
+            '姓名': "adventLifecycle",
+            '标题': "title",
+            '提示': "defaultPrice",
+            '高': "height"
         }, { //测试数据
-            name: "adventLifecycle1",
-            title: "title1",
-            tips: "defaultPrice1",
-            height: "height1"
+            '姓名': "adventLifecycle",
+            '标题': "title",
+            '提示': "defaultPrice",
+            '高': "height"
         }];
         var tmpDown; //导出的二进制对象
         function downloadExl(json, type) {

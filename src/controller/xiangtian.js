@@ -47,19 +47,19 @@ module.exports = class extends Base {
         .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
         .select();
       let startTime = await productionModel
-        .order('yb_xiangtian_production.sendOutTime ASC') 
+        .order('yb_xiangtian_production.sendOutTime ASC')
         .find();
       let endTime = await productionModel
         .order('yb_xiangtian_production.sendOutTime DESC')
         .find();
-      let start = get.start == '' || get.start == undefined?startTime.sendOutTime: Moment(get.start).unix();
-      let end = get.end == '' || get.end == undefined?endTime.sendOutTime: Moment(get.end).unix();
+      let start = get.start == '' || get.start == undefined ? startTime.sendOutTime : Moment(get.start).unix();
+      let end = get.end == '' || get.end == undefined ? endTime.sendOutTime : Moment(get.end).unix();
       let productionData = await productionModel
         .where(`yb_xiangtian_production.sendOutTime >= ${start} AND yb_xiangtian_production.sendOutTime <= ${end}`)
         .order('yb_xiangtian_production.sendOutTime ASC')
         .field(`yb_xiangtian_production.userId, yb_xiangtian_production.milkNum, FROM_UNIXTIME(yb_xiangtian_production.sendOutTime, '%y/%m/%d') as sendOutTime, yb_xiangtian_production.sendOutTime as unixTime`)
         .select();
-      
+
       //生成所有的时间段
       let timeSlot = [];  //["18/11/22","18/11/23","18/11/24"]
       let a = (end - start) / 60 / 60 / 24;
@@ -140,7 +140,21 @@ module.exports = class extends Base {
         .field(`yb_xiangtian_continued_card.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, yb_xiangtian_continued_card.payee, yb_xiangtian_continued_card.money, FROM_UNIXTIME(yb_xiangtian_continued_card.receivablesTime, '%y/%m/%d') as receivablesTime`)
         .select();
       //self.body = continuedCardData;
+      let time = "";
+      let timeStart = get.start == undefined || get.start == "" ? '' : get.start;
+      let timeEnd = get.end == undefined || get.end == "" ? '' : get.end;
+      console.log('++++'+timeStart)
+      if (timeStart == "" && timeEnd == "") {
+        time = "";
+      } else if (timeStart != "" && timeEnd == "") {
+        time = timeStart + "至现在";
+      } else if (timeStart == "" && timeEnd != "") {
+        time = '最开始至' + timeEnd;
+      } else {
+        time = timeStart + "至" + timeEnd;
+      }
       self.assign({
+        time: time,
         data: continuedCardData,
         name: self.cookie('name')
       });
@@ -276,14 +290,14 @@ module.exports = class extends Base {
         .select();
       //所有的开始时间
       let startTime = await productionModel
-        .order('yb_xiangtian_production.sendOutTime ASC') 
+        .order('yb_xiangtian_production.sendOutTime ASC')
         .find();
       //所有的结束时间
       let endTime = await productionModel
         .order('yb_xiangtian_production.sendOutTime DESC')
         .find();
       let productionData = await productionModel
-        .where({userId: id})
+        .where({ userId: id })
         .field(`yb_xiangtian_production.milkNum, FROM_UNIXTIME(yb_xiangtian_production.sendOutTime, '%y/%m/%d') as sendOutTime`)
         .select();
       //生成所有的时间段
@@ -293,15 +307,15 @@ module.exports = class extends Base {
         timeSlot.push(Common.fmtDate((startTime.sendOutTime + 60 * 60 * 24 * i) * 1000))
       }
       let timeSlot1 = new Array(timeSlot.length);
-      for(var i=0;i<timeSlot.length;i++){
-        for(var j=0;j<productionData.length;j++){
-          if(timeSlot[i] == productionData[j].sendOutTime){
+      for (var i = 0; i < timeSlot.length; i++) {
+        for (var j = 0; j < productionData.length; j++) {
+          if (timeSlot[i] == productionData[j].sendOutTime) {
             timeSlot1[i] = productionData[j].milkNum;
           }
         }
       }
-      for(var i = 0;i<timeSlot1.length;i++){
-        if(timeSlot1[i] == null){
+      for (var i = 0; i < timeSlot1.length; i++) {
+        if (timeSlot1[i] == null) {
           timeSlot1[i] = 0;
         }
       }
@@ -331,5 +345,10 @@ module.exports = class extends Base {
       });
       return this.display(think.ROOT_PATH + "/view/pc/addressNumber.html");
     }
+  }
+
+  //生成excel表格
+  async excelAction() {
+    return this.display(think.ROOT_PATH + "/view/pc/excel.html");
   }
 };
