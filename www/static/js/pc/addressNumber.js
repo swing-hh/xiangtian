@@ -1,11 +1,13 @@
 (function () {
     $(function () {
+        ybUtils.ybLog(cId, 35); 
         $(".header ul li:eq(4)").addClass('active');
         $(".close, .yb-close").on("click", function () {
             clearData();
             $(".yb-mask").hide();
         });
         $("#add").on('click', function () {
+            ybUtils.ybLog(cId, 36); 
             $(".yb-mask").show();
         })
         function clearData() {
@@ -24,14 +26,17 @@
                 return false;
             }
             ybUtils.ybGet(`/api/numberAddress?number=${number}&address=${address}`, function () {
+                ybUtils.ybLog(cId, 37); 
                 window.location.href = window.location.href;
             })
         })
         $(".del").on('click', function () {
+            ybUtils.ybLog(cId, 38); 
             let id = $(this).attr('data-id');
             let c = confirm('确定删除这条数字地址嘛？')
             if (c) {
                 ybUtils.ybGet(`/api/delNumberAddress?id=${id}`, function () {
+                    ybUtils.ybLog(cId, 39); 
                     window.location.href = window.location.href;
                 });
             }

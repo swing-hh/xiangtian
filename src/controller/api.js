@@ -35,6 +35,21 @@ module.exports = class extends Base {
     }
   }
 
+  //log打点
+  async logAction(){
+    let self = this;
+    let get = self.get();
+    let logModel = self.model('log');
+    await logModel
+      .add({
+        isHidden: 1,
+        generateTime: Moment().unix(),
+        userId: get.userId,
+        logType: get.logId
+      })
+    self.body = Common.suc({});
+  }
+
   //添加用户
   async addUserAction() {
     let self = this;

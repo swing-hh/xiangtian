@@ -13,7 +13,7 @@ var ybUtils = {
                     console.log(check)
                     alert(data.msg)
                 }
-                
+
             },
             error: function (e) {
                 check = true;
@@ -50,5 +50,9 @@ var ybUtils = {
             if (pair[0] == variable) { return pair[1]; }
         }
         return ('');
+    },
+    //打点
+    ybLog: function (userId, logId) {
+        this.ybGet(`/api/log?userId=${userId}&logId=${logId}`, function () { });
     }
 }

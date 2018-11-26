@@ -21,6 +21,7 @@
             <li data-url="/xiangtian/addressNumber">地址数字</li>
         </ul>
         <button type="button" class="am-btn am-btn-danger yb-fr">退出</button>
+        <input type="hidden" value="<%= cookie%>" id="cookie">
         <span class="yb-fr"><%= name%></span>
     </div>
     <script>
@@ -28,8 +29,12 @@
             window.location.href = $(this).attr('data-url');
         });
         $(".header button").on('click', function(){
-            ybUtils.ybGet('/api/exitLogin', function(){
-                window.location.href = '/xiangtian/login';
-            });
+            ybUtils.ybLog(cId, 21); 
+            setTimeout(function(){
+                ybUtils.ybGet('/api/exitLogin', function(){
+                    window.location.href = '/xiangtian/login';
+                });
+            }, 100)
         });
+        var cId = $("#cookie").val();
     </script>

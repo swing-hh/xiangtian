@@ -14,6 +14,7 @@ module.exports = class extends Base {
   async indexAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let cookie = self.cookie("id");
       let get = self.get();
       let name = get.name == undefined || get.name == "" ? "" : get.name;
       let start = get.start == undefined || get.start == "" ? 0 : Moment(get.start).unix();
@@ -27,6 +28,7 @@ module.exports = class extends Base {
         .select();
       //self.body = userData;
       self.assign({
+        cookie: cookie,
         data: userData,
         name: self.cookie('name')
       });
@@ -38,6 +40,7 @@ module.exports = class extends Base {
   async summaryAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let cookie = self.cookie("id");
       let userModel = self.model('user');
       let productionModel = self.model('production');
       let get = self.get();
@@ -115,7 +118,21 @@ module.exports = class extends Base {
         }
       }
       //self.body = userData;
+      let time = "";
+      let timeStart = get.start == undefined || get.start == "" ? '' : get.start;
+      let timeEnd = get.end == undefined || get.end == "" ? '' : get.end;
+      if (timeStart == "" && timeEnd == "") {
+        time = "";
+      } else if (timeStart != "" && timeEnd == "") {
+        time = timeStart + "至现在";
+      } else if (timeStart == "" && timeEnd != "") {
+        time = '最开始至' + timeEnd;
+      } else {
+        time = timeStart + "至" + timeEnd;
+      }
       self.assign({
+        cookie: cookie,
+        time: time,
         timeSlot: timeSlot,
         userData: userData,
         name: self.cookie('name')
@@ -128,6 +145,7 @@ module.exports = class extends Base {
   async continuedCardAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let cookie = self.cookie("id");
       let continuedCardModel = self.model('continued_card');
       let get = self.get();
       let start = get.start == undefined || get.start == "" ? 0 : Moment(get.start).unix();
@@ -143,7 +161,6 @@ module.exports = class extends Base {
       let time = "";
       let timeStart = get.start == undefined || get.start == "" ? '' : get.start;
       let timeEnd = get.end == undefined || get.end == "" ? '' : get.end;
-      console.log('++++'+timeStart)
       if (timeStart == "" && timeEnd == "") {
         time = "";
       } else if (timeStart != "" && timeEnd == "") {
@@ -154,6 +171,7 @@ module.exports = class extends Base {
         time = timeStart + "至" + timeEnd;
       }
       self.assign({
+        cookie: cookie,
         time: time,
         data: continuedCardData,
         name: self.cookie('name')
@@ -166,6 +184,7 @@ module.exports = class extends Base {
   async unsubscribeAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let cookie = self.cookie("id");
       let unsubscribeModel = self.model('unsubscribe');
       let get = self.get();
       let start = get.start == undefined || get.start == "" ? 0 : Moment(get.start).unix();
@@ -178,7 +197,21 @@ module.exports = class extends Base {
         .field(`yb_xiangtian_unsubscribe.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_user.milkType, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, FROM_UNIXTIME(yb_xiangtian_unsubscribe.unsubscribeTime, '%y/%m/%d') as unsubscribeTime, yb_xiangtian_unsubscribe.unsubscribeReason`)
         .select();
       //self.body = unsubscribeData;
+      let time = "";
+      let timeStart = get.start == undefined || get.start == "" ? '' : get.start;
+      let timeEnd = get.end == undefined || get.end == "" ? '' : get.end;
+      if (timeStart == "" && timeEnd == "") {
+        time = "";
+      } else if (timeStart != "" && timeEnd == "") {
+        time = timeStart + "至现在";
+      } else if (timeStart == "" && timeEnd != "") {
+        time = '最开始至' + timeEnd;
+      } else {
+        time = timeStart + "至" + timeEnd;
+      }
       self.assign({
+        cookie: cookie,
+        time: time,
         data: unsubscribeData,
         name: self.cookie('name')
       });
@@ -190,6 +223,7 @@ module.exports = class extends Base {
   async sendOutAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let cookie = self.cookie("id");
       let mathMilkModel = self.model('math_milk');
       let userModel = self.model('user');
       //获取当前时间时间戳
@@ -265,8 +299,11 @@ module.exports = class extends Base {
           allMilk[3] = allMilk[3] + defaultMilkData[i].milkNum;
         }
       }
+      let ybTime = self.get("time") == undefined || self.get('time') == '' ? Moment().year() + "-" + (Moment().month() + 1) + "-" + Moment().date() : self.get('time');
       //self.body = mathMilkData; 
       self.assign({
+        cookie: cookie,
+        time: ybTime,
         allMilk: allMilk,
         defaultMilkData: defaultMilkData,
         mathData: mathMilkData,
@@ -280,6 +317,7 @@ module.exports = class extends Base {
   async detailsAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let cookie = self.cookie("id");
       let userModel = self.model('user');
       let productionModel = self.model('production');
       let id = self.get('id');
@@ -321,6 +359,7 @@ module.exports = class extends Base {
       }
       // self.body = timeSlot1;
       self.assign({
+        cookie: cookie,
         timeSlot: timeSlot,
         timeSlot1: timeSlot1,
         data: userData[0],
@@ -334,12 +373,14 @@ module.exports = class extends Base {
   async addressNumberAction() {
     if (Common.isLogin(this)) {
       let self = this;
+      let cookie = self.cookie("id");
       let addressNumberModel = self.model('address_number');
       let addressNumberData = await addressNumberModel
         .order('yb_xiangtian_address_number.number DESC')
         .field('yb_xiangtian_address_number.id, yb_xiangtian_address_number.number, yb_xiangtian_address_number.address')
         .select();
       self.assign({
+        cookie: cookie,
         data: addressNumberData,
         name: self.cookie('name')
       });

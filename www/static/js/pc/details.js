@@ -1,6 +1,7 @@
 let check = true;
 (function () {
     $(function () {
+        ybUtils.ybLog(cId, 18); 
         let userId = ybUtils.getUrl('id');
         $("#update").on("click", function () {
             let weekSendOut = $("#weekSendOut").text();
@@ -69,11 +70,13 @@ let check = true;
             let remarks = $("#handleCardAlert .remark").val();
             if (!check) return false;
             check = false;
+            ybUtils.ybLog(cId, 20); 
             ybUtils.ybGet(`/api/updateUser?userId=${userId}&name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`, function(){
                 window.location.href =  window.location.href;
             });
         });
         $(".close, .yb-close").on('click', function () {
+            ybUtils.ybLog(cId, 19); 
             $("#handleCardAlert").hide();
         });
     });

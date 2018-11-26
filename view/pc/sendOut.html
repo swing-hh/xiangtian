@@ -6,7 +6,8 @@
             <button type="button" class="am-btn am-btn-primary yb-fr" id="query">查询</button>
             <input type="text" class="am-form-field yb-w-200 yb-fr yb-mr-10" id="time" placeholder="派送时间" data-am-datepicker readonly
                 required />
-            <input type="hidden" value="<%= JSON.stringify(defaultMilkData)%>" id="ybData">
+            <input type="hidden" value="<%= JSON.stringify(defaultMilkData)%>" id="data">
+            <input type="hidden" value="<%= JSON.stringify(allMilk)%>" id="allMilk">
         </div>
         <h2 class="h21">加奶确认</h2>
         <div class="yb-mt-20 table-all">
@@ -173,7 +174,8 @@
                         <%= allMilk[3]%>瓶 。
         </div>
         <div class="yb-mt-20 yb-of-h">
-            <button type="button" class="am-btn am-btn-primary yb-fl" id="generateExcel">生成</button>
+            <button type="button" class="am-btn am-btn-primary yb-fl" id="generate">生成</button>
+            <a href="" download="<%= time%>派单.xlsx" id="hf"></a>
         </div>
     </div>
     <script src="/static/js/pc/sendOut.js"></script>

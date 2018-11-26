@@ -1,11 +1,13 @@
 (function () {
     $(function () {
+        ybUtils.ybLog(cId, 29); 
         let start = ybUtils.getUrl("start");
         let end = ybUtils.getUrl("end");
         $(".header ul li:eq(2)").addClass('active');
         $("#query").on('click', function () {
             let start = $("#start").val();
             let end = $("#end").val();
+            ybUtils.ybLog(cId, 30); 
             window.location.href = '/xiangtian/continuedCard?start=' + start + '&end=' + end;
         });
         $("#start").attr('value', start);
@@ -33,6 +35,7 @@
                 }
                 jsono.push(obj);
             }
+            ybUtils.ybLog(cId, 31); 
             downloadExl(jsono);
         })
         var tmpDown; //导出的二进制对象

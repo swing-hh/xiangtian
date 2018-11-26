@@ -1,5 +1,7 @@
 (function () {
     $(function () {
+        var cId = 0;
+        ybUtils.ybLog(cId, 1);
         $("#name").focus();
         $("#login").on('click', function () {
             login();
@@ -23,6 +25,7 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.isOk == 1) {
+                        ybUtils.ybLog(cId, 2);
                         window.location.href = "/xiangtian"
                     } else {
                         err(data.msg);
