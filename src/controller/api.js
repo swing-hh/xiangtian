@@ -122,7 +122,7 @@ module.exports = class extends Base {
       money: get.money,
       receivablesTime: Moment(get.time).unix()
     })
-    self.ctx.redirect('/xiangtian');
+    self.body = Common.suc({});
   }
 
   //退订
@@ -144,7 +144,7 @@ module.exports = class extends Base {
         unsubscribeTime: Moment(get.time).unix(),
         unsubscribeReason: get.reason
       })
-    self.ctx.redirect('/xiangtian');
+    self.body = Common.suc({});
   }
 
   //加奶

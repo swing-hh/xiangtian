@@ -1,7 +1,7 @@
 let check = true;
 (function () {
     $(function () {
-        ybUtils.ybLog(cId, 3); 
+        ybUtils.ybLog(cId, 3);
         let name = ybUtils.getUrl("name");
         let start = ybUtils.getUrl("start");
         let end = ybUtils.getUrl("end");
@@ -17,7 +17,7 @@ let check = true;
         }
         $(".header ul li:eq(0)").addClass('active');
         $("#shengcheng").on("click", function () {
-            ybUtils.ybLog(cId, 17); 
+            ybUtils.ybLog(cId, 17);
             window.location.href = "/xiangtian/summary";
         })
         $("#query").on("click", function () {
@@ -25,15 +25,15 @@ let check = true;
             let start = $("#start").val();
             let end = $("#end").val();
             if (userName == "" && start == "" && end == "") return false;
-            ybUtils.ybLog(cId, 7); 
+            ybUtils.ybLog(cId, 7);
             window.location.href = `/xiangtian/index?name=${encodeURI(userName)}&start=${start}&end=${end}`;
         });
         $("#handleCard").on("click", function () {
-            ybUtils.ybLog(cId, 4); 
+            ybUtils.ybLog(cId, 4);
             $("#handleCardAlert").show();
         });
         $(".close, .yb-close").on("click", function () {
-            ybUtils.ybLog(cId, 6); 
+            ybUtils.ybLog(cId, 6);
             clearData();
             $(".yb-mask").hide();
         });
@@ -92,8 +92,8 @@ let check = true;
             let remarks = $("#handleCardAlert .remark").val();
             if (!check) return false;
             check = false;
-            ybUtils.ybGet(`/api/addUser?name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`, function(){
-                ybUtils.ybLog(cId, 5); 
+            ybUtils.ybGet(`/api/addUser?name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`, function () {
+                ybUtils.ybLog(cId, 5);
                 window.location.href = window.location.href;
             })
 
@@ -101,25 +101,25 @@ let check = true;
         $(".xuka").on('click', function () {
             id = $(this).parent().attr('data-id');
             $("#continued-card").show();
-            ybUtils.ybLog(cId, 8); 
+            ybUtils.ybLog(cId, 8);
         });
         $(".tuiding").on('click', function () {
             id = $(this).parent().attr('data-id');
-            ybUtils.ybLog(cId, 10); 
+            ybUtils.ybLog(cId, 10);
             $("#unsubscribe").show();
         });
         $(".jianai").on('click', function () {
             id = $(this).parent().attr('data-id');
-            ybUtils.ybLog(cId, 12); 
+            ybUtils.ybLog(cId, 12);
             $("#addMilk").show();
         })
         $(".jiannai").on('click', function () {
             id = $(this).parent().attr('data-id');
-            ybUtils.ybLog(cId, 14); 
+            ybUtils.ybLog(cId, 14);
             $("#reduceMilk").show();
         })
-        $(".chakan-xiangqing").on('click', function(){
-            ybUtils.ybLog(cId, 16); 
+        $(".chakan-xiangqing").on('click', function () {
+            ybUtils.ybLog(cId, 16);
         })
         //续卡
         $("#continued-card .add").on('click', function () {
@@ -145,8 +145,11 @@ let check = true;
             }
             if (!check) return false;
             check = false;
-            ybUtils.ybLog(cId, 9); 
-            window.location.href = `/api/continuedCard?userId=${id}&addMilkNum=${milkNum}&money=${money}&payee=${payee}&time=${time}`;
+
+            ybUtils.ybGet(`/api/continuedCard?userId=${id}&addMilkNum=${milkNum}&money=${money}&payee=${payee}&time=${time}`, function () {
+                ybUtils.ybLog(cId, 9);
+                window.location.href = window.location.href;
+            })
         });
         //退卡
         $("#unsubscribe .add").on('click', function () {
@@ -158,8 +161,10 @@ let check = true;
             let reason = $("#unsubscribe .reason").val();
             if (!check) return false;
             check = false;
-            ybUtils.ybLog(cId, 11); 
-            window.location.href = `/api/unsubscribe?userId=${id}&time=${time}&reason=${reason}`;
+            ybUtils.ybGet(`/api/unsubscribe?userId=${id}&time=${time}&reason=${reason}`, function () {
+                ybUtils.ybLog(cId, 11);
+                window.location.href = window.location.href;
+            });
         });
         //加奶
         $("#addMilk .add").on('click', function () {
@@ -181,7 +186,7 @@ let check = true;
             let remart = $("#addMilk .remart").val();
             if (!check) return false;
             check = false;
-            ybUtils.ybLog(cId, 13); 
+            ybUtils.ybLog(cId, 13);
             ybUtils.ybGet(`/api/addMilk?userId=${id}&time=${time1}&milkNum=${milkNum}&milkType=${milkType}&remart=${remart}`, function () {
                 window.location.href = window.location.href;
             })
