@@ -106,7 +106,7 @@ let check = true;
                 everyNum: everyNum
             }, function () {
                 ybUtils.ybLog(cId, 5);
-                //window.location.href = window.location.href;
+                window.location.href = window.location.href;
             })
 
         });
