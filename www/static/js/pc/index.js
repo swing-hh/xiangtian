@@ -39,6 +39,7 @@ let check = true;
         });
         //办卡
         $("#handleCardAlert .add").on("click", function () {
+            console.log(22222)
             let name = $("#handleCardAlert .name").val();
             if (name == "") {
                 alert("请填写姓名!");

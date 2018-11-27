@@ -53,6 +53,7 @@ module.exports = class extends Base {
   //添加用户
   async addUserAction() {
     let self = this;
+    console.log(self.ctx.res)
     let userModel = self.model('user');
     let get = self.get();
     let remarks = get.remarks == undefined || get.remarks == '' ? "" : get.remarks;
