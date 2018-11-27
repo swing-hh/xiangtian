@@ -48,6 +48,7 @@ module.exports = class extends Base {
         .where('yb_xiangtian_user.isHidden = 1')
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
         .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
+        .order('yb_xiangtian_user.reserveTime DESC')
         .select();
       let startTime = await productionModel
         .order('yb_xiangtian_production.sendOutTime ASC')
@@ -57,6 +58,12 @@ module.exports = class extends Base {
         .find();
       let start = get.start == '' || get.start == undefined ? startTime.sendOutTime : Moment(get.start).unix();
       let end = get.end == '' || get.end == undefined ? endTime.sendOutTime : Moment(get.end).unix();
+      if(start == undefined){
+        start = Moment().unix();
+      }
+      if(end == undefined){
+        end = Moment().unix();
+      }
       let productionData = await productionModel
         .where(`yb_xiangtian_production.sendOutTime >= ${start} AND yb_xiangtian_production.sendOutTime <= ${end}`)
         .order('yb_xiangtian_production.sendOutTime ASC')

@@ -19,9 +19,13 @@
             let pwd = $("#pwd").val();
             if (pwd == "") return false;
             $.ajax({
-                type: "GET",
+                type: "POST",
                 timeout: 2000, //超时时间设置，单位毫秒
-                url: `/api/login?name=${name}&pwd=${pwd}`,
+                url: `/api/login`,
+                data: {
+                    name: name,
+                    pwd: pwd
+                },
                 dataType: "json",
                 success: function (data) {
                     if (data.isOk == 1) {

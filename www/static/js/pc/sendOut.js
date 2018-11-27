@@ -1,6 +1,6 @@
 (function () {
     $(function () {
-        ybUtils.ybLog(cId, 24); 
+        ybUtils.ybLog(cId, 24);
         let id;
         let time = ybUtils.getUrl('time');
         if (time != "") {
@@ -8,13 +8,17 @@
         }
         $(".header ul li:eq(1)").addClass('active');
         $(".del").on('click', function () {
-            ybUtils.ybLog(cId, 27); 
+            ybUtils.ybLog(cId, 27);
             id = $(this).attr('data-id');
             let type = $(this).attr('data-type');
             let c = confirm('是否确认删除？');
             if (c) {
-                ybUtils.ybGet('/api/delMathMilk?id=' + id + '&time=' + time + '&type=' + type, function () {
-                    ybUtils.ybLog(cId, 28); 
+                ybUtils.ybPost('/api/delMathMilk', {
+                    id: id,
+                    time: time,
+                    type: type
+                }, function () {
+                    ybUtils.ybLog(cId, 28);
                     window.location.href = window.location.href;
                 })
             }
@@ -22,7 +26,7 @@
         $("#query").on('click', function () {
             let time = $("#time").val();
             if (time == "") return false;
-            ybUtils.ybLog(cId, 25); 
+            ybUtils.ybLog(cId, 25);
             window.location.href = '/xiangtian/sendOut?time=' + time;
         })
         $("#generate").on("click", function () {
@@ -41,8 +45,8 @@
                         "地址": ybData[i].address,
                         "订购日期": ybData[i].reserveTime,
                         "总数（瓶）": ybData[i].total,
-                        "消耗（瓶）": ybData[i].consume,
-                        "剩余（瓶）": ybData[i].total - ybData[i].consume,
+                        "消耗（瓶）": ybData[i].consume + ybData[i].milkNum,
+                        "剩余（瓶）": ybData[i].total - ybData[i].consume - ybData[i].milkNum,
                         "每天杯数": ybData[i].everyNum,
                         "周几送": ybData[i].weekSendOut,
                         "备注": ybData[i].remarks,
@@ -67,7 +71,7 @@
                     "周几送": '',
                     "备注": '',
                 });
-                ybUtils.ybLog(cId, 26); 
+                ybUtils.ybLog(cId, 26);
                 downloadExl(jsono);
             });
         });

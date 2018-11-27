@@ -72,7 +72,18 @@ let check = true;
             if (!check) return false;
             check = false;
             ybUtils.ybLog(cId, 20); 
-            ybUtils.ybGet(`/api/updateUser?userId=${userId}&name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`, function(){
+            ybUtils.ybPost(`/api/updateUser`, {
+                userId: userId,
+                name: name,
+                telphone: telphone,
+                milkType: milkType,
+                address: address,
+                addressType: addressType,
+                time: time,
+                weekSendOut: weekSendOut,
+                remarks: remarks,
+                everyNum: everyNum
+            }, function(){
                 window.location.href =  window.location.href;
             });
         });

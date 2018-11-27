@@ -97,9 +97,9 @@ let check = true;
                 name: name,
                 telphone: telphone,
                 milkType: milkType,
-                address:address,
+                address: address,
                 addressType: addressType,
-                time:time,
+                time: time,
                 total: total,
                 weekSendOut: weekSendOut,
                 remarks: remarks,
@@ -158,7 +158,13 @@ let check = true;
             if (!check) return false;
             check = false;
 
-            ybUtils.ybGet(`/api/continuedCard?userId=${id}&addMilkNum=${milkNum}&money=${money}&payee=${payee}&time=${time}`, function () {
+            ybUtils.ybPost(`/api/continuedCard`, {
+                userId: id,
+                addMilkNum: milkNum,
+                money: money,
+                payee: payee,
+                time: time
+            }, function () {
                 ybUtils.ybLog(cId, 9);
                 window.location.href = window.location.href;
             })
@@ -173,7 +179,11 @@ let check = true;
             let reason = $("#unsubscribe .reason").val();
             if (!check) return false;
             check = false;
-            ybUtils.ybGet(`/api/unsubscribe?userId=${id}&time=${time}&reason=${reason}`, function () {
+            ybUtils.ybPost(`/api/unsubscribe`, {
+                userId: id,
+                time: time,
+                reason: reason
+            }, function () {
                 ybUtils.ybLog(cId, 11);
                 window.location.href = window.location.href;
             });
@@ -199,7 +209,13 @@ let check = true;
             if (!check) return false;
             check = false;
             ybUtils.ybLog(cId, 13);
-            ybUtils.ybGet(`/api/addMilk?userId=${id}&time=${time1}&milkNum=${milkNum}&milkType=${milkType}&remart=${remart}`, function () {
+            ybUtils.ybPost(`/api/addMilk`, {
+                userId: id,
+                time: time1,
+                milkNum: milkNum,
+                milkType: milkType,
+                remart: remart
+            }, function () {
                 window.location.href = window.location.href;
             })
         });
@@ -213,7 +229,10 @@ let check = true;
             if (!check) return false;
             check = false;
             ybUtils.ybLog(cId, 15);
-            ybUtils.ybGet(`/api/reduceMilk?userId=${id}&time=${time}`, function () {
+            ybUtils.ybPost(`/api/reduceMilk`, {
+                userId: id,
+                time: time
+            }, function () {
                 window.location.href = window.location.href;
             });
         });
