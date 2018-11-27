@@ -95,7 +95,7 @@ let check = true;
             check = false;
             ybUtils.ybGet(`/api/addUser?name=${name}&telphone=${telphone}&milkType=${milkType}&address=${address}&addressType=${addressType}&time=${time}&total=${total}&weekSendOut=${weekSendOut}&remarks=${remarks}&everyNum=${everyNum}`, function () {
                 ybUtils.ybLog(cId, 5);
-                window.location.href = window.location.href;
+                //window.location.href = window.location.href;
             })
 
         });
