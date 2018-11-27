@@ -36,7 +36,7 @@ module.exports = class extends Base {
   }
 
   //log打点
-  async logAction(){
+  async logAction() {
     let self = this;
     let get = self.get();
     let logModel = self.model('log');
@@ -53,27 +53,28 @@ module.exports = class extends Base {
   //添加用户
   async addUserAction() {
     let self = this;
-    console.log(self.ctx.res)
-    let userModel = self.model('user');
-    let get = self.get();
-    let remarks = get.remarks == undefined || get.remarks == '' ? "" : get.remarks;
-    let everyNum = get.everyNum == undefined || get.everyNum == "" ? 0 : get.everyNum;
-    await userModel.add({
-      isHidden: 1,
-      generateTime: Moment().unix(),
-      name: get.name,
-      telphone: get.telphone,
-      milkType: get.milkType,
-      address: get.address,
-      addressType: get.addressType,
-      reserveTime: Moment(get.time).unix(),
-      total: get.total,
-      consume: 0,
-      weekSendOut: get.weekSendOut,
-      remarks: remarks,
-      everyNum: everyNum
-    });
-    self.body = Common.suc({});
+    if (self.ctx.isPost) {
+      let userModel = self.model('user');
+      let post = self.post();
+      let remarks = post.remarks == undefined || post.remarks == '' ? "" : post.remarks;
+      let everyNum = post.everyNum == undefined || post.everyNum == "" ? 0 : post.everyNum;
+      await userModel.add({
+        isHidden: 1,
+        generateTime: Moment().unix(),
+        name: post.name,
+        telphone: post.telphone,
+        milkType: post.milkType,
+        address: post.address,
+        addressType: post.addressType,
+        reserveTime: Moment(post.time).unix(),
+        total: post.total,
+        consume: 0,
+        weekSendOut: post.weekSendOut,
+        remarks: remarks,
+        everyNum: everyNum
+      });
+      self.body = Common.suc({});
+    }
   }
 
   //更新用户信息
@@ -469,9 +470,9 @@ module.exports = class extends Base {
     let addressNumberModel = self.model('address_number');
     let get = self.get();
     let addressNumberData = await addressNumberModel
-      .where({number: get.number})
+      .where({ number: get.number })
       .select();
-    if(addressNumberData.length){
+    if (addressNumberData.length) {
       self.body = Common.err('该数字被使用了，换一个吧！');
       return false;
     }
@@ -486,11 +487,11 @@ module.exports = class extends Base {
   }
 
   //删除添加数字
-  async delNumberAddressAction(){
+  async delNumberAddressAction() {
     let self = this;
     let numberAddressModel = self.model('address_number');
     await numberAddressModel
-      .where({id: self.get('id')})
+      .where({ id: self.get('id') })
       .delete();
     self.body = Common.suc({});
   }
