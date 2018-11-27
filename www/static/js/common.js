@@ -2,7 +2,7 @@ var ybUtils = {
     ybGet: function (url, fn) {
         $.ajax({
             type: "GET",
-            timeout: 2000, //超时时间设置，单位毫秒
+            timeout: 5000, //超时时间设置，单位毫秒
             url: url,
             dataType: "json",
             success: function (data) {
@@ -17,14 +17,14 @@ var ybUtils = {
             },
             error: function (e) {
                 check = true;
-                alert(e)
+                alert('服务器错误');
             }
         });
     },
     ybPost: function (url, parame, fn) {
         $.ajax({
             type: "POST",
-            timeout: 2000, //超时时间设置，单位毫秒
+            timeout: 5000, //超时时间设置，单位毫秒
             url: url,
             data: parame,
             dataType: "json",
@@ -38,7 +38,7 @@ var ybUtils = {
             },
             error: function (e) {
                 check = true;
-                alert(e)
+                alert('服务器错误')
             }
         });
     },

@@ -13,6 +13,7 @@
         $("#start").attr('value', start);
         $("#end").attr('value', end);
         $("#generate").on('click', function () {
+            $("#generate i").show();
             var jsono = [];
             var ybData = JSON.parse($("#data").val());
             for (var i = 0; i < ybData.length; i++) {
@@ -75,6 +76,7 @@
             document.getElementById("hf").click(); //模拟点击实现下载
             setTimeout(function () { //延时释放
                 URL.revokeObjectURL(tmpDown); //用URL.revokeObjectURL()来释放这个object URL
+                $("#generate i").hide();
             }, 100);
         }
 

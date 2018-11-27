@@ -12,6 +12,7 @@
             window.location.href = `/xiangtian/summary?start=${start}&end=${end}`;
         });
         $("#generate").on('click', function () {
+            $("#generate i").show();
             var jsono = [];
             var ybData = JSON.parse($("#userData").val());
             var timeSlot = JSON.parse($("#timeSlot").val());
@@ -76,6 +77,7 @@
             document.getElementById("hf").click(); //模拟点击实现下载
             setTimeout(function () { //延时释放
                 URL.revokeObjectURL(tmpDown); //用URL.revokeObjectURL()来释放这个object URL
+                $("#generate i").hide();
             }, 100);
         }
 

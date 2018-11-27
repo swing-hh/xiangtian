@@ -4,10 +4,10 @@
     <div class="content yb-p-20">
         <div class="yb-of-h">
             <button type="button" class="am-btn am-btn-primary yb-fr" id="query">查询</button>
-            <input type="text" class="am-form-field yb-fr yb-w-200 yb-mr-10" id="end" placeholder="收款结束时间" data-am-datepicker readonly required
-            />
-            <input type="text" class="am-form-field yb-fr yb-w-200 yb-mr-10" id="start" placeholder="收款开始时间" data-am-datepicker readonly required
-            />
+            <input type="text" class="am-form-field yb-fr yb-w-200 yb-mr-10" id="end" placeholder="收款结束时间" data-am-datepicker readonly
+                required />
+            <input type="text" class="am-form-field yb-fr yb-w-200 yb-mr-10" id="start" placeholder="收款开始时间" data-am-datepicker readonly
+                required />
             <input type="hidden" value="<%= JSON.stringify(data)%>" id="data">
         </div>
         <div class="yb-mt-20 table-all">
@@ -34,28 +34,59 @@
                 <tbody>
                     <% data.forEach(function(d){ %>
                         <tr>
-                            <th><%= d.id%></th>
-                            <th><%= d.name%></th>
-                            <th><%= d.telphone%></th>
-                            <th><%= d.typeName%></th>
-                            <th><%= d.address%></th>
-                            <th><%= d.reserveTime%></th>
-                            <th><%= d.total%></th>
-                            <th><%= d.consume%></th>
-                            <th><%= d.total-d.consume%></th>
-                            <th><%= d.everyNum%></th>
-                            <th><%= d.weekSendOut%></th>
-                            <th><%= d.remarks%></th>
-                            <th><%= d.payee%></th>
-                            <th><%= d.money%></th>
-                            <th><%= d.receivablesTime%></th>
+                            <th>
+                                <%= d.id%>
+                            </th>
+                            <th>
+                                <%= d.name%>
+                            </th>
+                            <th>
+                                <%= d.telphone%>
+                            </th>
+                            <th>
+                                <%= d.typeName%>
+                            </th>
+                            <th>
+                                <%= d.address%>
+                            </th>
+                            <th>
+                                <%= d.reserveTime%>
+                            </th>
+                            <th>
+                                <%= d.total%>
+                            </th>
+                            <th>
+                                <%= d.consume%>
+                            </th>
+                            <th>
+                                <%= d.total-d.consume%>
+                            </th>
+                            <th>
+                                <%= d.everyNum%>
+                            </th>
+                            <th>
+                                <%= d.weekSendOut%>
+                            </th>
+                            <th>
+                                <%= d.remarks%>
+                            </th>
+                            <th>
+                                <%= d.payee%>
+                            </th>
+                            <th>
+                                <%= d.money%>
+                            </th>
+                            <th>
+                                <%= d.receivablesTime%>
+                            </th>
                         </tr>
-                    <% }) %>
+                        <% }) %>
                 </tbody>
             </table>
         </div>
         <div class="yb-mt-20 yb-of-h">
-            <button type="button" class="am-btn am-btn-primary yb-fl" id="generate">生成</button>
+            <button type="button" class="am-btn am-btn-primary yb-fl" id="generate"><i class="am-icon-spinner am-icon-pulse"
+                    style="display: none;"></i>生成</button>
             <a href="" download="<%= time%>续卡.xlsx" id="hf"></a>
         </div>
     </div>

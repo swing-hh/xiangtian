@@ -30,49 +30,71 @@
             window.location.href = '/xiangtian/sendOut?time=' + time;
         })
         $("#generate").on("click", function () {
-            ybUtils.ybPost('/api/generateSendOut', { time: time, data: $("#data").val() }, function (data) {
-                var jsono = [];
-                var ybData = JSON.parse($("#data").val());
-                for (var i = 0; i < ybData.length; i++) {
-                    var obj = {
-                        "id": ybData[i].id,
-                        "姓名": ybData[i].name,
-                        "送奶杯数": ybData[i].milkNum,
-                        "送奶种类": ybData[i].milkType,
-                        "临时备注": ybData[i].temporaryRemark,
-                        "电话": ybData[i].telphone,
-                        "订奶种类": ybData[i].typeName,
-                        "地址": ybData[i].address,
-                        "订购日期": ybData[i].reserveTime,
-                        "总数（瓶）": ybData[i].total,
-                        "消耗（瓶）": ybData[i].consume + ybData[i].milkNum,
-                        "剩余（瓶）": ybData[i].total - ybData[i].consume - ybData[i].milkNum,
-                        "每天杯数": ybData[i].everyNum,
-                        "周几送": ybData[i].weekSendOut,
-                        "备注": ybData[i].remarks,
+            $("#generate i").show();
+            $.ajax({
+                type: "POST",
+                timeout: 60000, //超时时间设置，单位毫秒
+                url: '/api/generateSendOut',
+                data: {
+                    time: time,
+                    data: $("#data").val()
+                },
+                dataType: "json",
+                success: function (data) {
+                    $("#generate i").hide();
+                    if (data.isOk == 1) {
+                        var jsono = [];
+                        var ybData = JSON.parse($("#data").val());
+                        for (var i = 0; i < ybData.length; i++) {
+                            var obj = {
+                                "id": ybData[i].id,
+                                "姓名": ybData[i].name,
+                                "送奶杯数": ybData[i].milkNum,
+                                "送奶种类": ybData[i].milkType,
+                                "临时备注": ybData[i].temporaryRemark,
+                                "电话": ybData[i].telphone,
+                                "订奶种类": ybData[i].typeName,
+                                "地址": ybData[i].address,
+                                "订购日期": ybData[i].reserveTime,
+                                "总数（瓶）": ybData[i].total,
+                                "消耗（瓶）": ybData[i].consume + ybData[i].milkNum,
+                                "剩余（瓶）": ybData[i].total - ybData[i].consume - ybData[i].milkNum,
+                                "每天杯数": ybData[i].everyNum,
+                                "周几送": ybData[i].weekSendOut,
+                                "备注": ybData[i].remarks,
+                            }
+                            jsono.push(obj);
+                        }
+                        var allMilk = JSON.parse($("#allMilk").val());
+                        jsono.push({
+                            "id": '汇总：',
+                            "姓名": '巴氏奶（大）-' + allMilk[0] + '瓶',
+                            "送奶杯数": '巴氏奶（小）-' + allMilk[1] + '瓶',
+                            "送奶种类": '酸（大）-' + allMilk[2] + '瓶',
+                            "临时备注": '酸（小）-' + allMilk[3] + '瓶',
+                            "电话": '',
+                            "订奶种类": '',
+                            "地址": '',
+                            "订购日期": '',
+                            "总数（瓶）": '',
+                            "消耗（瓶）": '',
+                            "剩余（瓶）": '',
+                            "每天杯数": '',
+                            "周几送": '',
+                            "备注": '',
+                        });
+                        ybUtils.ybLog(cId, 26);
+                        downloadExl(jsono);
+                    } else {
+                        check = true;
+                        alert(data.msg)
                     }
-                    jsono.push(obj);
+                },
+                error: function (e) {
+                    $("#generate i").hide();
+                    check = true;
+                    alert('服务器错误');
                 }
-                var allMilk = JSON.parse($("#allMilk").val());
-                jsono.push({
-                    "id": '汇总：',
-                    "姓名": '巴氏奶（大）-' + allMilk[0] + '瓶',
-                    "送奶杯数": '巴氏奶（小）-' + allMilk[1] + '瓶',
-                    "送奶种类": '酸（大）-' + allMilk[2] + '瓶',
-                    "临时备注": '酸（小）-' + allMilk[3] + '瓶',
-                    "电话": '',
-                    "订奶种类": '',
-                    "地址": '',
-                    "订购日期": '',
-                    "总数（瓶）": '',
-                    "消耗（瓶）": '',
-                    "剩余（瓶）": '',
-                    "每天杯数": '',
-                    "周几送": '',
-                    "备注": '',
-                });
-                ybUtils.ybLog(cId, 26);
-                downloadExl(jsono);
             });
         });
         var tmpDown; //导出的二进制对象
