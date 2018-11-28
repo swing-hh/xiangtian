@@ -1,3 +1,4 @@
+let check = true;
 (function () {
     $(function () {
         ybUtils.ybLog(cId, 24);
@@ -26,13 +27,15 @@
             window.location.href = '/xiangtian/sendOut?time=' + time;
         })
         $("#generate").on("click", function () {
+            if (!check) return false;
+            check = false;
             $("#generate i").show();
             $.ajax({
                 type: "POST",
                 timeout: 60000, //超时时间设置，单位毫秒
                 url: '/api/generateSendOut',
                 data: {
-                    time: time,
+                    time: $("#time").val(),
                     data: $("#data").val()
                 },
                 dataType: "json",
