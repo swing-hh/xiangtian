@@ -90,6 +90,15 @@ let check = true;
                 weekSendOut = "[" + id_list.substring(0, id_list.length - 1) + "]";
             }
             let everyNum = $("#handleCardAlert .everyNum").val();
+            console.log(weekSendOut)
+            if (weekSendOut == '' && everyNum != '') {
+                alert('如果选择打电话，则不用选择每天瓶数！')
+                return false;
+            }
+            if (weekSendOut != '' && everyNum == '') {
+                alert('如果选择默认派送，则需要选择每天瓶数！')
+                return false;
+            }
             let remarks = $("#handleCardAlert .remark").val();
             if (!check) return false;
             check = false;
@@ -108,7 +117,6 @@ let check = true;
                 ybUtils.ybLog(cId, 5);
                 window.location.href = window.location.href;
             })
-
         });
         $(".xuka").on('click', function () {
             id = $(this).parent().attr('data-id');

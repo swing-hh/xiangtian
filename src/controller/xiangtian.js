@@ -201,7 +201,7 @@ module.exports = class extends Base {
         .join('yb_xiangtian_user ON yb_xiangtian_user.id = yb_xiangtian_unsubscribe.userId')
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
         .order('yb_xiangtian_unsubscribe.unsubscribeTime DESC')
-        .field(`yb_xiangtian_unsubscribe.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_user.milkType, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, FROM_UNIXTIME(yb_xiangtian_unsubscribe.unsubscribeTime, '%y/%m/%d') as unsubscribeTime, yb_xiangtian_unsubscribe.unsubscribeReason`)
+        .field(`yb_xiangtian_unsubscribe.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, FROM_UNIXTIME(yb_xiangtian_unsubscribe.unsubscribeTime, '%y/%m/%d') as unsubscribeTime, yb_xiangtian_unsubscribe.unsubscribeReason`)
         .select();
       //self.body = unsubscribeData;
       let time = "";
@@ -222,6 +222,7 @@ module.exports = class extends Base {
         data: unsubscribeData,
         name: self.cookie('name')
       });
+      //self.body = unsubscribeData;
       return this.display(think.ROOT_PATH + "/view/pc/unsubscribe.html");
     }
   }
