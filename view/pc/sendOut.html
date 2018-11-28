@@ -4,7 +4,7 @@
     <div class="content yb-p-20">
         <div class="yb-of-h">
             <button type="button" class="am-btn am-btn-primary yb-fr" id="query">查询</button>
-            <input type="text" class="am-form-field yb-w-200 yb-fr yb-mr-10" id="time" placeholder="派送时间" data-am-datepicker readonly
+            <input type="text" class="am-form-field yb-w-200 yb-fr yb-mr-10" id="time" value="<%= ybDate%>" placeholder="派送时间" data-am-datepicker readonly
                 required />
             <input type="hidden" value="<%= JSON.stringify(defaultMilkData)%>" id="data">
             <input type="hidden" value="<%= JSON.stringify(allMilk)%>" id="allMilk">

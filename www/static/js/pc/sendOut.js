@@ -2,10 +2,6 @@
     $(function () {
         ybUtils.ybLog(cId, 24);
         let id;
-        let time = ybUtils.getUrl('time');
-        if (time != "") {
-            $("#time").attr('value', time);
-        }
         $(".header ul li:eq(1)").addClass('active');
         $(".del").on('click', function () {
             ybUtils.ybLog(cId, 27);

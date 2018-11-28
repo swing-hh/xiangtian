@@ -32,10 +32,27 @@
                             订奶种类：</div>
                         <div class="mask-group-right mask-group-right1">
                             <select class="milkType" value="<%= data.milkType%>">
-                                <option value="1">巴氏奶（大）</option>
-                                <option value="2">巴氏奶（小）</option>
-                                <option value="3">酸奶（大）</option>
-                                <option value="4">酸奶（小）</option>
+                                <% if(data.milkType == 1){%>
+                                    <option value="1" selected = "selected">巴氏奶（大）</option>
+                                    <option value="2">巴氏奶（小）</option>
+                                    <option value="3">酸奶（大）</option>
+                                    <option value="4">酸奶（小）</option>
+                                <%}else if(data.milkType == 2){%>
+                                    <option value="1">巴氏奶（大）</option>
+                                    <option value="2" selected = "selected">巴氏奶（小）</option>
+                                    <option value="3">酸奶（大）</option>
+                                    <option value="4">酸奶（小）</option>
+                                <%}else if(data.milkType == 3){%>
+                                    <option value="1">巴氏奶（大）</option>
+                                    <option value="2">巴氏奶（小）</option>
+                                    <option value="3" selected = "selected">酸奶（大）</option>
+                                    <option value="4">酸奶（小）</option>
+                                <%}else {%>
+                                    <option value="1">巴氏奶（大）</option>
+                                    <option value="2">巴氏奶（小）</option>
+                                    <option value="3">酸奶（大）</option>
+                                    <option value="4" selected = "selected">酸奶（小）</option>
+                                <%}%>
                             </select>
                         </div>
                     </div>

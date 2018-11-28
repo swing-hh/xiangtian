@@ -162,7 +162,7 @@ module.exports = class extends Base {
         .join('yb_xiangtian_user ON yb_xiangtian_user.id = yb_xiangtian_continued_card.userId')
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
         .order('yb_xiangtian_continued_card.receivablesTime DESC')
-        .field(`yb_xiangtian_continued_card.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, yb_xiangtian_continued_card.payee, yb_xiangtian_continued_card.money, FROM_UNIXTIME(yb_xiangtian_continued_card.receivablesTime, '%y/%m/%d') as receivablesTime`)
+        .field(`yb_xiangtian_continued_card.id, yb_xiangtian_continued_card.addMilkNum, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_milk_type.typeName, yb_xiangtian_user.address, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '%y/%m/%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks, yb_xiangtian_continued_card.payee, yb_xiangtian_continued_card.money, FROM_UNIXTIME(yb_xiangtian_continued_card.receivablesTime, '%y/%m/%d') as receivablesTime`)
         .select();
       //self.body = continuedCardData;
       let time = "";
@@ -177,6 +177,7 @@ module.exports = class extends Base {
       } else {
         time = timeStart + "至" + timeEnd;
       }
+      //self.body = continuedCardData;
       self.assign({
         cookie: cookie,
         time: time,
@@ -236,6 +237,7 @@ module.exports = class extends Base {
       let userModel = self.model('user');
       //获取当前时间时间戳
       let time = self.get("time") == undefined || self.get('time') == '' ? Moment(Moment().year() + "-" + (Moment().month() + 1) + "-" + Moment().date()).unix() : Moment(self.get('time')).unix();
+      let ybDate = self.get("time") == undefined || self.get('time') == '' ? Moment().year() + "-" + (Moment().month() + 1) + "-" + Moment().date():self.get('time');
       //获得当前是周几
       let week = (new Date(time * 1000)).getDay() == '0' ? '7' : (new Date(time * 1000)).getDay();
       //先查询一下当天加减奶
@@ -308,10 +310,11 @@ module.exports = class extends Base {
         }
       }
       let ybTime = self.get("time") == undefined || self.get('time') == '' ? Moment().year() + "-" + (Moment().month() + 1) + "-" + Moment().date() : self.get('time');
-      //self.body = mathMilkData; 
+      //self.body = ybDate; 
       self.assign({
         cookie: cookie,
         time: ybTime,
+        ybDate: ybDate,
         allMilk: allMilk,
         defaultMilkData: defaultMilkData,
         mathData: mathMilkData,
@@ -332,7 +335,7 @@ module.exports = class extends Base {
       let userData = await userModel
         .where(`yb_xiangtian_user.id = ${id}`)
         .join('yb_xiangtian_milk_type ON yb_xiangtian_milk_type.id = yb_xiangtian_user.milkType')
-        .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_user.address, yb_xiangtian_user.addressType, yb_xiangtian_milk_type.typeName, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '20%y-%m-%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
+        .field(`yb_xiangtian_user.id, yb_xiangtian_user.name, yb_xiangtian_user.telphone, yb_xiangtian_user.address, yb_xiangtian_user.addressType, yb_xiangtian_user.milkType, yb_xiangtian_milk_type.typeName, FROM_UNIXTIME(yb_xiangtian_user.reserveTime, '20%y-%m-%d') as reserveTime, yb_xiangtian_user.total, yb_xiangtian_user.consume, yb_xiangtian_user.everyNum, yb_xiangtian_user.weekSendOut, yb_xiangtian_user.remarks`)
         .select();
       //所有的开始时间
       let startTime = await productionModel
@@ -365,7 +368,7 @@ module.exports = class extends Base {
           timeSlot1[i] = 0;
         }
       }
-      // self.body = timeSlot1;
+      //self.body = userData[0];
       self.assign({
         cookie: cookie,
         timeSlot: timeSlot,

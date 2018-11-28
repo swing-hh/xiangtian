@@ -124,7 +124,7 @@ module.exports = class extends Base {
         isHidden: 1,
         generateTime: Moment().unix(),
         userId: post.userId,
-        addMilkType: post.addMilkNum,
+        addMilkNum: post.addMilkNum,
         payee: post.payee,
         money: post.money,
         receivablesTime: Moment(post.time).unix()
