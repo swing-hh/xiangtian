@@ -3,7 +3,7 @@
         var cId = 0;
         ybUtils.ybLog(cId, 1);
         $("#name").focus();
-        $("#login").on('click', function () {
+        $("#login").bind('click', function () {
             login();
         });
 
