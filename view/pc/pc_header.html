@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name=”renderer” content=”webkit|ie-comp|ie-stand” />  
+    <meta name=”renderer” content=”webkit|ie-comp|ie-stand” />
     <title>享甜乳业</title>
     <link rel="shortcut icon" href="/static/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="stylesheet" href="/static/css/common.css">
 </head>
+
 <body>
     <div class="header">
         <ul class="yb-fl">
@@ -23,20 +25,3 @@
         <input type="hidden" value="<%= cookie%>" id="cookie">
         <span class="yb-fr"><%= name%></span>
     </div>
-    <script src="/static/js/common.js"></script>
-    <script src="http://s.amazeui.org/assets/2.x/js/jquery.min.js"></script>
-    <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
-    <script>
-        $(".header ul li").on('click', function(){
-            window.location.href = $(this).attr('data-url');
-        });
-        $(".header button").on('click', function(){
-            ybUtils.ybLog(cId, 21); 
-            setTimeout(function(){
-                ybUtils.ybGet('/api/exitLogin', function(){
-                    window.location.href = '/xiangtian/login';
-                });
-            }, 100)
-        });
-        var cId = $("#cookie").val();
-    </script>

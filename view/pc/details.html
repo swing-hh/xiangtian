@@ -200,5 +200,10 @@
             </table>
         </div>
     </div>
-    <script src="/static/js/pc/details.js"></script>
+    <script>
+        window.onload = function () {
+            ybUtils.loadJS('/static/js/header.js');
+            ybUtils.loadJS('/static/js/pc/details.js');
+        }
+    </script>
     <% include pc_footer.html %>

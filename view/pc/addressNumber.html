@@ -59,5 +59,10 @@
             </table>
         </div>
     </div>
-    <script src="/static/js/pc/addressNumber.js"></script>
+    <script>
+        window.onload = function () {
+            ybUtils.loadJS('/static/js/header.js');
+            ybUtils.loadJS('/static/js/pc/addressNumber.js');
+        }
+    </script>
     <% include pc_footer.html %>

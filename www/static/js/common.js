@@ -54,5 +54,15 @@ var ybUtils = {
     //打点
     ybLog: function (userId, logId) {
         this.ybGet(`/api/log?userId=${userId}&logId=${logId}`, function () { });
+    },
+    //异步加载js
+    loadJS: function (url) {
+        if (window.top == self) {
+            var s = document.createElement("script");
+            s.type = "text/javascript";
+            s.src = url;
+            var tmp = document.getElementsByTagName("script")[0];
+            tmp.parentNode.appendChild(s);
+        }
     }
 }

@@ -1,6 +1,5 @@
 <% include pc_header.html %>
     <link rel="stylesheet" href="/static/css/pc/unsubscribe.css">
-    <script src="http://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script>
     <div class="content yb-p-20">
         <div class="yb-of-h">
             <button type="button" class="am-btn am-btn-primary yb-fr" id="query">查询</button>
@@ -86,5 +85,11 @@
             <a href="" download="<%= time%>退卡.xlsx" id="hf"></a>
         </div>
     </div>
-    <script src="/static/js/pc/unsubscribe.js"></script>
+    <script src="http://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script>
+    <script>
+        window.onload = function () {
+            ybUtils.loadJS('/static/js/header.js');
+            ybUtils.loadJS('/static/js/pc/unsubscribe.js');
+        }
+    </script>
     <% include pc_footer.html %>
