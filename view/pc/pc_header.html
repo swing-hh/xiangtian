@@ -9,9 +9,6 @@
     <link rel="shortcut icon" href="/static/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="stylesheet" href="/static/css/common.css">
-    <script src="http://s.amazeui.org/assets/2.x/js/jquery.min.js"></script>
-    <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
-    <script src="/static/js/common.js"></script>
 </head>
 <body>
     <div class="header">
@@ -26,6 +23,9 @@
         <input type="hidden" value="<%= cookie%>" id="cookie">
         <span class="yb-fr"><%= name%></span>
     </div>
+    <script src="/static/js/common.js"></script>
+    <script src="http://s.amazeui.org/assets/2.x/js/jquery.min.js"></script>
+    <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
     <script>
         $(".header ul li").on('click', function(){
             window.location.href = $(this).attr('data-url');
