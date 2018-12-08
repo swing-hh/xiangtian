@@ -1,5 +1,6 @@
 var ybUtils = {
     ybGet: function (url, fn) {
+        let that = this;
         $.ajax({
             type: "GET",
             timeout: 5000, //超时时间设置，单位毫秒
@@ -10,18 +11,17 @@ var ybUtils = {
                     fn(data);
                 } else {
                     check = true;
-                    console.log(check)
-                    alert(data.msg)
+                    that.errLog(url);
                 }
-
             },
             error: function (e) {
                 check = true;
-                alert('服务器错误');
+                that.errLog(url);
             }
         });
     },
     ybPost: function (url, parame, fn) {
+        let that = this;
         $.ajax({
             type: "POST",
             timeout: 5000, //超时时间设置，单位毫秒
@@ -33,12 +33,12 @@ var ybUtils = {
                     fn(data);
                 } else {
                     check = true;
-                    alert(data.msg)
+                    that.errLog(url, JSON.stringify(parame));
                 }
             },
             error: function (e) {
                 check = true;
-                alert('服务器错误')
+                that.errLog(url, parame);
             }
         });
     },
@@ -64,5 +64,8 @@ var ybUtils = {
             var tmp = document.getElementsByTagName("script")[0];
             tmp.parentNode.appendChild(s);
         }
+    },
+    errLog: function (url, parame = "") {
+        this.ybPost('/api/err', { url: url, parame: parame }, function () { });
     }
 }

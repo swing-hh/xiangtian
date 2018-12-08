@@ -511,4 +511,21 @@ module.exports = class extends Base {
       .delete();
     self.body = Common.suc({});
   }
+
+  //发生的错误
+  async errAction(){
+    let self = this;
+    if(self.ctx.isPost){
+      let errModel = self.model('err');
+      let post = self.post();
+      await errModel
+        .add({
+          isHidden: 1,
+          generateTime: Moment().unix(),
+          url: post.url,
+          parame: post.parame
+        })
+      self.body = Common.suc({});
+    }  
+  }
 };
